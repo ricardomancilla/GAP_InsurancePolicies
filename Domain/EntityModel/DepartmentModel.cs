@@ -7,7 +7,7 @@ namespace Domain.EntityModel
     [Table("Department")]
     public class DepartmentModel : BaseModel
     {
-        [Key]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public byte DepartmentID { get; set; }
 
         [Required, StringLength(50)]

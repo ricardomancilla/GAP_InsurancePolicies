@@ -9,7 +9,7 @@ namespace Domain.EntityModel
         [Key]
         public int CityID { get; set; }
 
-        [Required, StringLength(20)]
+        [Required, StringLength(50)]
         public string Name { get; set; }
 
         public byte DepartmentID { get; set; }

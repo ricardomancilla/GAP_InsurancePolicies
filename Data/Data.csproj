@@ -50,11 +50,15 @@
   <ItemGroup>
     <Compile Include="InsurancesContext.cs" />
     <Compile Include="Interfaces\IContext.cs" />
+    <Compile Include="Migrations\201903092143098_Initial.cs" />
+    <Compile Include="Migrations\201903092143098_Initial.Designer.cs">
+      <DependentUpon>201903092143098_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\PolicyRepository.cs" />
     <Compile Include="Repositories\Repository.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
@@ -64,6 +68,11 @@
       <Project>{3495a5db-efcb-43ab-897d-7b25a8307735}</Project>
       <Name>Domain</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201903092143098_Initial.resx">
+      <DependentUpon>201903092143098_Initial.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

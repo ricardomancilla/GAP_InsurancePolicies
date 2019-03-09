@@ -6,7 +6,7 @@ namespace Domain.EntityModel
     [Table("Agency")]
     public class AgencyModel : BaseModel
     {
-        [Key]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public short AgencyID { get; set; }
 
         [Required, StringLength(50)]

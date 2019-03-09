@@ -7,7 +7,7 @@ namespace Domain.EntityModel
     [Table("CodeCategory")]
     public class CodeCategoryModel : BaseModel
     {
-        [Key]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public short CodeCategoryID { get; set; }
 
         [Required, StringLength(20)]

@@ -6,7 +6,7 @@ namespace Domain.EntityModel
     [Table("Code")]
     public class CodeModel : BaseModel
     {
-        [Key]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public short CodeID { get; set; }
 
         [Required, StringLength(20)]
