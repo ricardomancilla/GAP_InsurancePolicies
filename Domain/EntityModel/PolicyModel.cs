@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -38,5 +39,7 @@ namespace Domain.EntityModel
 
         [ForeignKey("PolicyStatusID")]
         public virtual CodeModel PolicyStatus { get; set; }
+
+        public virtual ICollection<CustomerPolicyModel> CustomerPolicies { get; set; }
     }
 }

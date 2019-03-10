@@ -29,10 +29,15 @@ namespace Data.Repositories
             return _dbSet.Find(id);
         }
 
-        public IQueryable<T> Find(Expression<Func<T, bool>> predicate)
+        public IQueryable<T> FindBy(Expression<Func<T, bool>> predicate)
         {
             return _dbSet.Where(predicate);
-        }            
+        }
+
+        public virtual DbSet<T> FindByWithRelations()
+        {
+            return _dbSet;
+        }
 
         public virtual void Insert(T entity)
         {
@@ -44,7 +49,7 @@ namespace Data.Repositories
             Delete(_dbSet.Find(id));
         }
 
-        private void Delete(T entity)
+        public void Delete(T entity)
         {
             _dbSet.Remove(entity);
         }

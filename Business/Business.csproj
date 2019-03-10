@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{3495A5DB-EFCB-43AB-897D-7B25A8307735}</ProjectGuid>
+    <ProjectGuid>{DCF7BA17-EFAA-4D5C-A953-5BA38CC4CCED}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Domain</RootNamespace>
-    <AssemblyName>Domain</AssemblyName>
+    <RootNamespace>Business</RootNamespace>
+    <AssemblyName>Business</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -32,7 +32,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -42,32 +41,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EntityModel\AgencyModel.cs" />
-    <Compile Include="EntityModel\BaseModel.cs" />
-    <Compile Include="EntityModel\CityModel.cs" />
-    <Compile Include="EntityModel\CodeCategoryModel.cs" />
-    <Compile Include="EntityModel\CodeModel.cs" />
-    <Compile Include="EntityModel\CustomerModel.cs" />
-    <Compile Include="EntityModel\CustomerPolicyModel.cs" />
-    <Compile Include="EntityModel\DepartmentModel.cs" />
-    <Compile Include="EntityModel\PolicyModel.cs" />
+    <Compile Include="Common\CodeCategoryEnum.cs" />
+    <Compile Include="Services\AgencyService.cs" />
+    <Compile Include="Services\CityService.cs" />
+    <Compile Include="Services\CodeService.cs" />
+    <Compile Include="Services\CustomerService.cs" />
+    <Compile Include="Services\DepartmentService.cs" />
+    <Compile Include="Services\PolicyService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RepositoryContracts\IAgencyRepository.cs" />
-    <Compile Include="RepositoryContracts\ICityRepository.cs" />
-    <Compile Include="RepositoryContracts\ICodeRepository.cs" />
-    <Compile Include="RepositoryContracts\ICustomerPolicyRespository.cs" />
-    <Compile Include="RepositoryContracts\ICustomerRepository.cs" />
-    <Compile Include="RepositoryContracts\IDepartmentRepository.cs" />
-    <Compile Include="RepositoryContracts\IPolicyRepository.cs" />
-    <Compile Include="RepositoryContracts\IRepository.cs" />
-    <Compile Include="ServiceContracts\IAgencyService.cs" />
-    <Compile Include="ServiceContracts\ICityService.cs" />
-    <Compile Include="ServiceContracts\ICodeService.cs" />
-    <Compile Include="ServiceContracts\ICustomerPolicyService.cs" />
-    <Compile Include="ServiceContracts\ICustomerService.cs" />
-    <Compile Include="ServiceContracts\IDepartmentService.cs" />
-    <Compile Include="ServiceContracts\IPolicyService.cs" />
-    <Compile Include="ViewModel\PolicyVM.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\Domain.csproj">
+      <Project>{3495A5DB-EFCB-43AB-897D-7B25A8307735}</Project>
+      <Name>Domain</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
