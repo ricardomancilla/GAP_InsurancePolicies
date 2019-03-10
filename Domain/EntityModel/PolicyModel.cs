@@ -17,9 +17,9 @@ namespace Domain.EntityModel
         [Required, StringLength(300, ErrorMessage = "Description accepts up to 300 characters")]
         public string Description { get; set; }
 
-        public decimal CoveragePercentaje { get; set; }
+        public decimal CoveragePercentage { get; set; }
 
-        public byte Validity { get; set; }
+        public byte CoverageTerm { get; set; }
 
         [DataType(DataType.Currency)]
         public decimal Price { get; set; }
@@ -29,6 +29,9 @@ namespace Domain.EntityModel
         public short RiskTypeID { get; set; }
 
         public short PolicyStatusID { get; set; }
+
+        [Column(Order = 12)]
+        public DateTime? DeleteDate { get; set; }
 
 
         [ForeignKey("CoverageTypeID")]

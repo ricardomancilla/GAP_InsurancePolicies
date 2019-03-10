@@ -74,6 +74,11 @@
     <Compile Include="ServiceContracts\ICustomerService.cs" />
     <Compile Include="ServiceContracts\IDepartmentService.cs" />
     <Compile Include="ServiceContracts\IPolicyService.cs" />
+    <Compile Include="ViewModel\CityVM.cs" />
+    <Compile Include="ViewModel\CodeVM.cs" />
+    <Compile Include="ViewModel\CustomerVM.cs" />
+    <Compile Include="ViewModel\DepartmentVM.cs" />
+    <Compile Include="ViewModel\EntityResult.cs" />
     <Compile Include="ViewModel\PolicyVM.cs" />
   </ItemGroup>
   <ItemGroup>

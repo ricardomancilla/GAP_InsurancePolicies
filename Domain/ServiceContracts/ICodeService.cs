@@ -1,14 +1,14 @@
-﻿using Domain.EntityModel;
+﻿using Domain.ViewModel;
 using System.Collections.Generic;
 
 namespace Domain.ServiceContracts
 {
     public interface ICodeService
     {
-        IEnumerable<CodeModel> GetRiskTypeCodes();
+        IEnumerable<CodeVM> GetRiskTypeCodes();
 
-        IEnumerable<CodeModel> GetCoverageTypeCodes();
+        IEnumerable<CodeVM> GetCoverageTypeCodes();
 
-        IEnumerable<CodeModel> GetPolicyStatusCodes();
+        IEnumerable<CodeVM> GetPolicyStatusCodes();
     }
 }

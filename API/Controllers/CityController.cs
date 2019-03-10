@@ -1,4 +1,5 @@
 ﻿using Domain.ServiceContracts;
+using System.Threading.Tasks;
 using System.Web.Http;
 
 namespace API.Controllers
@@ -13,18 +14,23 @@ namespace API.Controllers
         }
 
         [ActionName("Get")]
-        public IHttpActionResult GetAll()
+        public async Task<IHttpActionResult> GetAll()
         {
             return Json(new
             {
-                CityList = _service.GetAll()
+                CityList = await Task.FromResult(_service.GetAll())
             });
         }
 
         [ActionName("Get")]
-        public IHttpActionResult Get(int id)
+        public async Task<IHttpActionResult> Get(int id)
         {
-            return Json(_service.Find(x => x.CityID.Equals(id)));
+            var city = await Task.FromResult(_service.Find(id));
+
+            if (city == null)
+                NotFound();
+
+            return Json(city);
         }
     }
 }

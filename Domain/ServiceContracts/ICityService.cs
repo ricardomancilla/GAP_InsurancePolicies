@@ -1,15 +1,15 @@
 ﻿using Domain.EntityModel;
+using Domain.ViewModel;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 
 namespace Domain.ServiceContracts
 {
     public interface ICityService
     {
-        IEnumerable<CityModel> GetAll();
+        IEnumerable<CityVM> GetAll();
 
-        IEnumerable<CityModel> Find(Expression<Func<CityModel, bool>> predicate);
+        CityVM Find(object id);
     }
 }

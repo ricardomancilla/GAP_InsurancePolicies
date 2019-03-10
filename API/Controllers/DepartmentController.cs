@@ -4,13 +4,14 @@ using System.Web.Http;
 
 namespace API.Controllers
 {
-    public class AgencyController : ApiController
+    public class DepartmentController : ApiController
     {
-        IAgencyService _service;
+        IDepartmentService _service;
 
-        public AgencyController(IAgencyService service)
+        public DepartmentController(IDepartmentService service)
         {
             _service = service;
+
         }
 
         [ActionName("Get")]
@@ -18,7 +19,7 @@ namespace API.Controllers
         {
             return Json(new
             {
-                AgencyList = await Task.FromResult(_service.GetAll())
+                DepartmentList = await Task.FromResult(_service.GetAll())
             });
         }
     }

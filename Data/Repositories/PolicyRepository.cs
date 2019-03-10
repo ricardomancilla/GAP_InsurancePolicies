@@ -13,13 +13,19 @@ namespace Data.Repositories
 
         public override void Insert(PolicyModel entity)
         {
-            entity.CreateDtm = DateTime.Now;
+            entity.CreateDate = DateTime.Now;
             base.Insert(entity);
         }
 
         public override void Update(PolicyModel entity)
         {
-            entity.LastUpdateDtm = DateTime.Now;
+            entity.LastUpdateDate = DateTime.Now;
+            base.Update(entity);
+        }
+
+        public override void Delete(PolicyModel entity)
+        {
+            entity.DeleteDate = DateTime.Now;
             base.Update(entity);
         }
     }

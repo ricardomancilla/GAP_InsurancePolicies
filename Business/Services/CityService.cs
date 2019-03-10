@@ -1,10 +1,8 @@
-﻿using Domain.EntityModel;
-using Domain.RepositoryContracts;
+﻿using Domain.RepositoryContracts;
 using Domain.ServiceContracts;
-using System;
+using Domain.ViewModel;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 
 namespace Business.Services
 {
@@ -17,14 +15,29 @@ namespace Business.Services
             _repository = repository;
         }
 
-        public IEnumerable<CityModel> Find(Expression<Func<CityModel, bool>> predicate)
+        public CityVM Find(object id)
         {
-            return _repository.FindBy(predicate).ToList();
+            var city = _repository.Find(id);
+
+            if (city == null)
+                return null;
+
+            return new CityVM()
+            {
+                CityID = city.CityID,
+                DepartmentID = city.DepartmentID,
+                Name = city.Name
+            };
         }
 
-        public IEnumerable<CityModel> GetAll()
+        public IEnumerable<CityVM> GetAll()
         {
-            return _repository.GetAll();
+            return _repository.GetAll().Select(x => new CityVM()
+            {
+                CityID = x.CityID,
+                DepartmentID = x.DepartmentID,
+                Name = x.Name
+            });
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Domain.EntityModel;
+using Domain.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,10 +9,10 @@ namespace Domain.ServiceContracts
 {
     public interface ICustomerService
     {
-        CustomerModel Find(object id);
+        CustomerVM Find(object id);
 
-        IQueryable<CustomerModel> FindBy(Expression<Func<CustomerModel, bool>> predicate);
+        IQueryable<CustomerVM> FindBy(Expression<Func<CustomerModel, bool>> predicate);
 
-        IEnumerable<CustomerModel> GetAll();
+        IEnumerable<CustomerVM> GetAll();
     }
 }

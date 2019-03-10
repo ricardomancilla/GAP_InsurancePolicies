@@ -1,7 +1,9 @@
-﻿using Domain.EntityModel;
-using Domain.RepositoryContracts;
+﻿using Domain.RepositoryContracts;
 using Domain.ServiceContracts;
+using Domain.ViewModel;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace Business.Services
 {
@@ -14,9 +16,14 @@ namespace Business.Services
             _respository = respository;
         }
 
-        public IEnumerable<DepartmentModel> GetAll()
+        public IEnumerable<DepartmentVM> GetAll()
         {
-            return _respository.GetAll();
+            return _respository.GetAll().Select(x => new DepartmentVM()
+            {
+                DepartmentID = x.DepartmentID,
+                Name = x.Name,
+                PhoneCode = x.PhoneCode
+            });
         }
     }
 }

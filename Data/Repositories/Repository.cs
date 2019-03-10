@@ -44,7 +44,7 @@ namespace Data.Repositories
             Delete(_dbSet.Find(id));
         }
 
-        public void Delete(T entity)
+        public virtual void Delete(T entity)
         {
             _dbSet.Remove(entity);
         }

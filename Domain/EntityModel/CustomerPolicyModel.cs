@@ -14,7 +14,9 @@ namespace Domain.EntityModel
 
         public Guid PolicyID { get; set; }
 
-        public DateTime EfectiveStartDtm { get; set; }
+        public DateTime EffectiveStartDate { get; set; }
+
+        public DateTime DueDate { get; set; }
 
         public short StatusID { get; set; }
 

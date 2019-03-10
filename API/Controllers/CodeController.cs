@@ -1,4 +1,5 @@
 ﻿using Domain.ServiceContracts;
+using System.Threading.Tasks;
 using System.Web.Http;
 
 namespace API.Controllers
@@ -12,13 +13,14 @@ namespace API.Controllers
             _service = service;
         }
 
-        public IHttpActionResult GetCodes()
+        [ActionName("Get")]
+        public async Task<IHttpActionResult> GetCodes()
         {
             return Json(new
             {
-                CoverageTypeList = _service.GetCoverageTypeCodes(),
-                PolicyStatusLIst = _service.GetPolicyStatusCodes(),
-                RiskTypeList = _service.GetRiskTypeCodes()
+                CoverageTypeList = await Task.FromResult(_service.GetCoverageTypeCodes()),
+                PolicyStatusLIst = await Task.FromResult(_service.GetPolicyStatusCodes()),
+                RiskTypeList = await Task.FromResult(_service.GetRiskTypeCodes())
             });
         }
     }

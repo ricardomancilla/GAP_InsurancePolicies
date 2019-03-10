@@ -14,16 +14,20 @@ namespace API
             // Rutas de API web
             config.MapHttpAttributeRoutes();
 
-            //config.Routes.MapHttpRoute(
-            //    name: "DefaultApi",
-            //    routeTemplate: "{controller}/{id}",
-            //    defaults: new { controller = "Code" , id = RouteParameter.Optional }
-            //);
-
             config.Routes.MapHttpRoute(
-                name: "DetailsApi",
+                name: "DefaultApi",
                 routeTemplate: "{controller}/{action}/{id}",
                 defaults: new { id = RouteParameter.Optional }
+            );
+
+            config.Routes.MapHttpRoute(
+                name: "RouteWithCustomFilters",
+                routeTemplate: "{controller}/{action}/{filter}"
+            );
+
+            config.Routes.MapHttpRoute(
+                name: "RouteWithCustomFilters2",
+                routeTemplate: "{controller}/{action}/{target}/{filter}"
             );
         }
     }

@@ -98,6 +98,9 @@
     <Compile Include="Controllers\AgencyController.cs" />
     <Compile Include="Controllers\CityController.cs" />
     <Compile Include="Controllers\CodeController.cs" />
+    <Compile Include="Controllers\CustomerController.cs" />
+    <Compile Include="Controllers\DepartmentController.cs" />
+    <Compile Include="Controllers\PolicyController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

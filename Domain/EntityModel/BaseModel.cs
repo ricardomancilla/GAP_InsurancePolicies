@@ -4,8 +4,8 @@ namespace Domain.EntityModel
 {
     public class BaseModel
     {
-        public DateTime CreateDtm { get; set; }
+        public DateTime CreateDate { get; set; }
 
-        public DateTime? LastUpdateDtm { get; set; }
+        public DateTime? LastUpdateDate { get; set; }
     }
 }

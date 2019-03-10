@@ -42,6 +42,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\CodeCategoryEnum.cs" />
+    <Compile Include="Common\PolicyStatusEnum.cs" />
+    <Compile Include="Common\RiskTypeEnum.cs" />
     <Compile Include="Services\AgencyService.cs" />
     <Compile Include="Services\CityService.cs" />
     <Compile Include="Services\CodeService.cs" />

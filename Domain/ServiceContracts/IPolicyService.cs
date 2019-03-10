@@ -15,10 +15,10 @@ namespace Domain.ServiceContracts
 
         IEnumerable<PolicyVM> GetAll();
 
-        void Insert(PolicyModel entity);
+        EntityResult Create(PolicyModel entity);
 
-        void Update(PolicyModel entity);
+        EntityResult Update(PolicyModel entity);
 
-        void Delete(object id);
+        EntityResult Delete(object id);
     }
 }
