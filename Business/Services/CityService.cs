@@ -17,9 +17,9 @@ namespace Business.Services
             _repository = repository;
         }
 
-        public IQueryable<CityModel> Find(Expression<Func<CityModel, bool>> predicate)
+        public IEnumerable<CityModel> Find(Expression<Func<CityModel, bool>> predicate)
         {
-            return _repository.FindBy(predicate);
+            return _repository.FindBy(predicate).ToList();
         }
 
         public IEnumerable<CityModel> GetAll()

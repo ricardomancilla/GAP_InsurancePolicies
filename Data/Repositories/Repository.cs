@@ -1,4 +1,4 @@
-﻿using Data.Interfaces;
+﻿using Domain.DbContextContracts;
 using Domain.RepositoryContracts;
 using System;
 using System.Collections.Generic;
@@ -32,11 +32,6 @@ namespace Data.Repositories
         public IQueryable<T> FindBy(Expression<Func<T, bool>> predicate)
         {
             return _dbSet.Where(predicate);
-        }
-
-        public virtual DbSet<T> FindByWithRelations()
-        {
-            return _dbSet;
         }
 
         public virtual void Insert(T entity)

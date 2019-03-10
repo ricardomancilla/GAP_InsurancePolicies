@@ -17,6 +17,6 @@ namespace Domain.EntityModel
         public string Description { get; set; }
 
 
-        public virtual ICollection<CodeModel> Codes { get; set; }
+        public ICollection<CodeModel> Codes { get; set; }
     }
 }

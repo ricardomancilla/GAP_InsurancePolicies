@@ -49,7 +49,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="InsurancesContext.cs" />
-    <Compile Include="Interfaces\IContext.cs" />
     <Compile Include="Migrations\201903092143098_Initial.cs" />
     <Compile Include="Migrations\201903092143098_Initial.Designer.cs">
       <DependentUpon>201903092143098_Initial.cs</DependentUpon>
@@ -79,6 +78,9 @@
     <EmbeddedResource Include="Migrations\201903092143098_Initial.resx">
       <DependentUpon>201903092143098_Initial.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Interfaces\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -16,6 +16,6 @@ namespace Domain.EntityModel
 
 
         [ForeignKey("DepartmentID")]
-        public virtual DepartmentModel Department { get; set; }
+        public DepartmentModel Department { get; set; }
     }
 }

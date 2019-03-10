@@ -10,6 +10,6 @@ namespace Domain.ServiceContracts
     {
         IEnumerable<CityModel> GetAll();
 
-        IQueryable<CityModel> Find(Expression<Func<CityModel, bool>> predicate);
+        IEnumerable<CityModel> Find(Expression<Func<CityModel, bool>> predicate);
     }
 }

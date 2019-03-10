@@ -1,4 +1,4 @@
-﻿using Data.Interfaces;
+﻿using Domain.DbContextContracts;
 using Domain.EntityModel;
 using Domain.RepositoryContracts;
 

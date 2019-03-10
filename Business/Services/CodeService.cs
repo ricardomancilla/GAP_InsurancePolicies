@@ -17,17 +17,20 @@ namespace Business.Services
 
         public IEnumerable<CodeModel> GetCoverageTypeCodes()
         {
-            return _repository.FindByWithRelations(x => x.CodeCategory.Code.Equals(CodeCategoryEnum.COVERAGE_TYPE.ToString("G")));
+            var coverageTypeCode = CodeCategoryEnum.COVERAGE_TYPE.ToString("G");
+            return _repository.FindBy(x => x.CodeCategory.Code.Equals(coverageTypeCode));
         }
 
         public IEnumerable<CodeModel> GetPolicyStatusCodes()
         {
-            return _repository.FindByWithRelations(x => x.CodeCategory.Code.Equals(CodeCategoryEnum.POLICY_STATUS.ToString("G")));
+            var policyStatusCode = CodeCategoryEnum.POLICY_STATUS.ToString("G");
+            return _repository.FindBy(x => x.CodeCategory.Code.Equals(policyStatusCode));
         }
 
         public IEnumerable<CodeModel> GetRiskTypeCodes()
         {
-            return _repository.FindByWithRelations(x => x.CodeCategory.Code.Equals(CodeCategoryEnum.RISK_TYPE.ToString("G")));
+            var riskTypeCode = CodeCategoryEnum.RISK_TYPE.ToString("G");
+            return _repository.FindBy(x => x.CodeCategory.Code.Equals(riskTypeCode));
         }
     }
 }

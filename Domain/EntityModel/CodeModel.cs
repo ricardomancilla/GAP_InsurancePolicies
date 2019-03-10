@@ -19,6 +19,6 @@ namespace Domain.EntityModel
 
 
         [ForeignKey("CodeCategoryID")]
-        public virtual CodeCategoryModel CodeCategory { get; set; }
+        public CodeCategoryModel CodeCategory { get; set; }
     }
 }

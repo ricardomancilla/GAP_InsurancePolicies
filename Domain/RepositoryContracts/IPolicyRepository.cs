@@ -7,6 +7,5 @@ namespace Domain.RepositoryContracts
 {
     public interface IPolicyRepository : IRepository<PolicyModel>
     {
-        IEnumerable<PolicyModel> FindByWithRelations(Expression<Func<PolicyModel, bool>> predicate);
     }
 }

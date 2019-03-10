@@ -1,11 +1,7 @@
-﻿using Domain.EntityModel;
+﻿using Domain.DbContextContracts;
+using Domain.EntityModel;
 using Domain.RepositoryContracts;
-using Data.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Linq.Expressions;
 
 namespace Data.Repositories
 {
@@ -14,11 +10,6 @@ namespace Data.Repositories
         public PolicyRepository(IContext dbContext)
             :base(dbContext)
         { }
-
-        public IEnumerable<PolicyModel> FindByWithRelations(Expression<Func<PolicyModel, bool>> predicate)
-        {
-            return base.FindByWithRelations().Include(x => x.CustomerPolicies).Where(predicate);
-        }
 
         public override void Insert(PolicyModel entity)
         {

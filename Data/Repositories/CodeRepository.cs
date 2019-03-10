@@ -1,4 +1,4 @@
-﻿using Data.Interfaces;
+﻿using Domain.DbContextContracts;
 using Domain.EntityModel;
 using Domain.RepositoryContracts;
 using System;
@@ -14,10 +14,5 @@ namespace Data.Repositories
         public CodeRepository(IContext dbContext)
             : base(dbContext)
         { }
-
-        public IEnumerable<CodeModel> FindByWithRelations(Expression<Func<CodeModel, bool>> predicate)
-        {
-            return base.FindByWithRelations().Include(x => x.CodeCategory).Where(predicate);
-        }
     }
 }

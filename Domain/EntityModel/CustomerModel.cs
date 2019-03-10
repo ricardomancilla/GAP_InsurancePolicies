@@ -36,8 +36,8 @@ namespace Domain.EntityModel
 
 
         [ForeignKey("CityID")]
-        public virtual CityModel City { get; set; }
+        public CityModel City { get; set; }
 
-        public virtual ICollection<CustomerPolicyModel> CustomerPolicies { get; set; }
+        public ICollection<CustomerPolicyModel> CustomerPolicies { get; set; }
     }
 }

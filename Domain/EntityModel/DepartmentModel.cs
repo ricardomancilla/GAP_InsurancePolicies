@@ -16,6 +16,6 @@ namespace Domain.EntityModel
         public byte PhoneCode { get; set; }
 
 
-        public virtual ICollection<CityModel> Cities { get; set; }
+        public ICollection<CityModel> Cities { get; set; }
     }
 }

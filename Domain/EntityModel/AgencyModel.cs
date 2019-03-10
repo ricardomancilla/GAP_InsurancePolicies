@@ -22,6 +22,6 @@ namespace Domain.EntityModel
 
 
         [ForeignKey("CityID")]
-        public virtual CityModel City { get; set; }
+        public CityModel City { get; set; }
     }
 }

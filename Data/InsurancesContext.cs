@@ -1,7 +1,6 @@
 ﻿using Domain.EntityModel;
-using Data.Interfaces;
 using System.Data.Entity;
-using System.Data.Entity.Validation;
+using Domain.DbContextContracts;
 
 namespace Data
 {

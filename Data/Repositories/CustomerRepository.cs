@@ -1,11 +1,6 @@
-﻿using Data.Interfaces;
+﻿using Domain.DbContextContracts;
 using Domain.EntityModel;
 using Domain.RepositoryContracts;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Linq.Expressions;
 
 namespace Data.Repositories
 {

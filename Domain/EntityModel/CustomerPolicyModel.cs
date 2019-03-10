@@ -20,12 +20,12 @@ namespace Domain.EntityModel
 
 
         [ForeignKey("CustomerID")]
-        public virtual CustomerModel Customer { get; set; }
+        public CustomerModel Customer { get; set; }
 
         [ForeignKey("PolicyID")]
-        public virtual PolicyModel Policy { get; set; }
+        public PolicyModel Policy { get; set; }
 
         [ForeignKey("StatusID")]
-        public virtual CodeModel Status { get; set; }
+        public CodeModel Status { get; set; }
     }
 }

@@ -32,14 +32,14 @@ namespace Domain.EntityModel
 
 
         [ForeignKey("CoverageTypeID")]
-        public virtual CodeModel CoverageType { get; set; }
+        public CodeModel CoverageType { get; set; }
 
         [ForeignKey("RiskTypeID")]
-        public virtual CodeModel RiskType { get; set; }
+        public CodeModel RiskType { get; set; }
 
         [ForeignKey("PolicyStatusID")]
-        public virtual CodeModel PolicyStatus { get; set; }
+        public CodeModel PolicyStatus { get; set; }
 
-        public virtual ICollection<CustomerPolicyModel> CustomerPolicies { get; set; }
+        public ICollection<CustomerPolicyModel> CustomerPolicies { get; set; }
     }
 }
