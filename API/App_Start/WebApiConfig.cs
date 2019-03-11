@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Serialization;
+﻿using API.Authorization;
+using Newtonsoft.Json.Serialization;
 using System.Linq;
 using System.Net.Http.Formatting;
 using System.Web.Http;
@@ -15,6 +16,8 @@ namespace API
 
             // Rutas de API web
             config.MapHttpAttributeRoutes();
+
+            config.MessageHandlers.Add(new TokenValidationHandler());
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",

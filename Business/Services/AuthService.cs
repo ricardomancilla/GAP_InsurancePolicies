@@ -32,6 +32,16 @@ namespace Business.Services
             return _mapper.Map<UserVM>(user);
         }
 
+        public UserVM Find(object id)
+        {
+            var user = _repository.FindBy(x => x.UserID.Equals(id));
+
+            if (user == null)
+                return null;
+
+            return _mapper.Map<UserVM>(user);
+        }
+
         private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
             if (password == null) throw new ArgumentNullException("password");

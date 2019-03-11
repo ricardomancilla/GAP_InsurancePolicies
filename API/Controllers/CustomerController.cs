@@ -27,7 +27,7 @@ namespace API.Controllers
         }
 
         [ActionName("Get")]
-        public async Task<IHttpActionResult> Get(Guid id)
+        public async Task<IHttpActionResult> Get(int id)
         {
             var customer = await Task.FromResult(_service.Find(id));
 

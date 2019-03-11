@@ -6,6 +6,8 @@ import { map } from 'rxjs/operators';
 import { User } from '@app/_models';
 import { environment } from '@environments/environment'
 
+import { Md5 } from 'ts-md5/dist/md5';
+
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
     private currentUserSubject: BehaviorSubject<User>;
@@ -21,6 +23,8 @@ export class AuthenticationService {
     }
 
     login(username: string, password: string) {
+        const md5 = new Md5();
+        password = md5.appendStr(password).end().toString();
         return this.http.post<any>(`${environment.apiUrl}/Auth/LogIn`, { username, password })
             .pipe(map(user => {
                 if (user && user.Token) {

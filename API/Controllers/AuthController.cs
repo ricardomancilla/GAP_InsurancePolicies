@@ -16,6 +16,7 @@ using System.Web.Http;
 
 namespace API.Controllers
 {
+    [AllowAnonymous]
     public class AuthController : ApiController
     {
         IAuthService _service;
@@ -33,20 +34,7 @@ namespace API.Controllers
             if (user == null)
                 return BadRequest("Username or password is incorrect");
 
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(ConfigurationManager.AppSettings["Secret"]);
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                    new Claim(ClaimTypes.Name, user.Username),
-                    new Claim(ClaimTypes.Email, user.Email)
-                }),
-                Expires = DateTime.UtcNow.AddDays(1),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            var tokenString = tokenHandler.WriteToken(token);
+            var tokenString = Authorization.TokenGenerator.GenerateTokenJwt(user.Username);
 
             return Json(new UserVM()
             {

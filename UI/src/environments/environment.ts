@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost.fiddler:58110/'
-  //apiUrl: 'http://localhost:4200/'
+  apiUrl: 'http://localhost:58110/',
+  apiUrlF: 'http://localhost.fiddler:58110/'
 };
 
 /*

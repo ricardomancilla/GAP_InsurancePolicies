@@ -38,7 +38,7 @@ namespace API.Controllers
         }
 
         [ActionName("Get")]
-        public async Task<IHttpActionResult> Get(Guid id)
+        public async Task<IHttpActionResult> Get(int id)
         {
             var policy = await Task.FromResult(_service.Find(id));
 
@@ -92,7 +92,7 @@ namespace API.Controllers
         }
 
         [HttpDelete]
-        public async Task<IHttpActionResult> Delete(Guid id)
+        public async Task<IHttpActionResult> Delete(int id)
         {
             return Json(new
             {
