@@ -1334,6 +1334,13 @@ namespace Data.Migrations
                     }
                 }
             });
+
+            context.Users.Add(new UserModel()
+            {
+                Username = "Luis",
+                Password = "bc974680bb94583b3836a4378a600016",
+                Email = "luisricardomancilla@gmail.com"
+            });
         }
     }
 }

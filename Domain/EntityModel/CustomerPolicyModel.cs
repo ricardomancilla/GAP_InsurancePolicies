@@ -10,9 +10,9 @@ namespace Domain.EntityModel
         [Key]
         public int CustomerPolicyID { get; set; }
 
-        public Guid CustomerID { get; set; }
+        public int CustomerID { get; set; }
 
-        public Guid PolicyID { get; set; }
+        public int PolicyID { get; set; }
 
         public DateTime EffectiveStartDate { get; set; }
 

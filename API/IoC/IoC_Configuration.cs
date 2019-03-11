@@ -15,6 +15,7 @@ namespace API.IoC
             builder.RegisterType<InsurancesContext>().As<IContext>();
 
             builder.RegisterType<AgencyService>().As<IAgencyService>();
+            builder.RegisterType<AuthService>().As<IAuthService>();
             builder.RegisterType<CityService>().As<ICityService>();
             builder.RegisterType<CodeService>().As<ICodeService>();
             builder.RegisterType<CustomerService>().As<ICustomerService>();

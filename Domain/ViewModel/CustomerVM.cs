@@ -4,7 +4,7 @@ namespace Domain.ViewModel
 {
     public class CustomerVM
     {
-        public Guid CustomerID { get; set; } = new Guid();
+        public int CustomerID { get; set; }
 
         public string Identification { get; set; }
 

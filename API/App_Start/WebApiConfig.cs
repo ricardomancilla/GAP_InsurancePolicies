@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Newtonsoft.Json.Serialization;
 using System.Linq;
+using System.Net.Http.Formatting;
 using System.Web.Http;
 
 namespace API
@@ -10,7 +10,9 @@ namespace API
         public static void Register(HttpConfiguration config)
         {
             // Configuración y servicios de API web
-            
+            var cors = new System.Web.Http.Cors.EnableCorsAttribute("*", "*", "*");
+            config.EnableCors(cors);
+
             // Rutas de API web
             config.MapHttpAttributeRoutes();
 
@@ -29,6 +31,9 @@ namespace API
                 name: "RouteWithCustomFilters2",
                 routeTemplate: "{controller}/{action}/{target}/{filter}"
             );
+
+            var jsonFormatter = config.Formatters.OfType<JsonMediaTypeFormatter>().First();
+            jsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
         }
     }
 }

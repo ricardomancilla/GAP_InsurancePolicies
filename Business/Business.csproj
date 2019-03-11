@@ -45,6 +45,7 @@
     <Compile Include="Common\PolicyStatusEnum.cs" />
     <Compile Include="Common\RiskTypeEnum.cs" />
     <Compile Include="Services\AgencyService.cs" />
+    <Compile Include="Services\AuthService.cs" />
     <Compile Include="Services\CityService.cs" />
     <Compile Include="Services\CodeService.cs" />
     <Compile Include="Services\CustomerService.cs" />
@@ -53,6 +54,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Data\Data.csproj">
+      <Project>{417A1CDA-200A-4B01-A17A-B38C7E21BF7A}</Project>
+      <Name>Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Domain\Domain.csproj">
       <Project>{3495A5DB-EFCB-43AB-897D-7B25A8307735}</Project>
       <Name>Domain</Name>

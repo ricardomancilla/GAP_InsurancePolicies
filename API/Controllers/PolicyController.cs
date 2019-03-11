@@ -9,6 +9,7 @@ using System.Web.Http;
 
 namespace API.Controllers
 {
+    [Authorize]
     public class PolicyController : ApiController
     {
         IPolicyService _service;

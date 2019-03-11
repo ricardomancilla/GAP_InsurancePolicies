@@ -58,6 +58,7 @@
     <Compile Include="EntityModel\CustomerPolicyModel.cs" />
     <Compile Include="EntityModel\DepartmentModel.cs" />
     <Compile Include="EntityModel\PolicyModel.cs" />
+    <Compile Include="EntityModel\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RepositoryContracts\IAgencyRepository.cs" />
     <Compile Include="RepositoryContracts\ICityRepository.cs" />
@@ -68,6 +69,7 @@
     <Compile Include="RepositoryContracts\IPolicyRepository.cs" />
     <Compile Include="RepositoryContracts\IRepository.cs" />
     <Compile Include="ServiceContracts\IAgencyService.cs" />
+    <Compile Include="ServiceContracts\IAuthService.cs" />
     <Compile Include="ServiceContracts\ICityService.cs" />
     <Compile Include="ServiceContracts\ICodeService.cs" />
     <Compile Include="ServiceContracts\ICustomerPolicyService.cs" />
@@ -80,6 +82,7 @@
     <Compile Include="ViewModel\DepartmentVM.cs" />
     <Compile Include="ViewModel\EntityResult.cs" />
     <Compile Include="ViewModel\PolicyVM.cs" />
+    <Compile Include="ViewModel\UserVM.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -4,6 +4,7 @@ using System.Web.Http;
 
 namespace API.Controllers
 {
+    [Authorize]
     public class AgencyController : ApiController
     {
         IAgencyService _service;

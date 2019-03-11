@@ -8,8 +8,8 @@ namespace Domain.EntityModel
     [Table("Customer")]
     public class CustomerModel : BaseModel
     {
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public Guid CustomerID { get; set; } = new Guid();
+        [Key]
+        public int CustomerID { get; set; }
 
         [StringLength(15)]
         public string Identification { get; set; }

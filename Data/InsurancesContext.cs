@@ -17,5 +17,6 @@ namespace Data
         public DbSet<CustomerPolicyModel> CustomerPolicies { get; set; }
         public DbSet<DepartmentModel> Departments { get; set; }
         public DbSet<PolicyModel> Policies { get; set; }
+        public DbSet<UserModel> Users { get; set; }
     }
 }

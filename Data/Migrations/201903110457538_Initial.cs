@@ -16,8 +16,8 @@ namespace Data.Migrations
                         Address = c.String(nullable: false, maxLength: 100),
                         Phone = c.String(maxLength: 15),
                         CityID = c.Int(nullable: false),
-                        CreateDtm = c.DateTime(nullable: false),
-                        LastUpdateDtm = c.DateTime(),
+                        CreateDate = c.DateTime(nullable: false),
+                        LastUpdateDate = c.DateTime(),
                     })
                 .PrimaryKey(t => t.AgencyID)
                 .ForeignKey("dbo.City", t => t.CityID)
@@ -30,8 +30,8 @@ namespace Data.Migrations
                         CityID = c.Int(nullable: false, identity: true),
                         Name = c.String(nullable: false, maxLength: 50),
                         DepartmentID = c.Byte(nullable: false),
-                        CreateDtm = c.DateTime(nullable: false),
-                        LastUpdateDtm = c.DateTime(),
+                        CreateDate = c.DateTime(nullable: false),
+                        LastUpdateDate = c.DateTime(),
                     })
                 .PrimaryKey(t => t.CityID)
                 .ForeignKey("dbo.Department", t => t.DepartmentID)
@@ -44,8 +44,8 @@ namespace Data.Migrations
                         DepartmentID = c.Byte(nullable: false, identity: true),
                         Name = c.String(nullable: false, maxLength: 50),
                         PhoneCode = c.Byte(nullable: false),
-                        CreateDtm = c.DateTime(nullable: false),
-                        LastUpdateDtm = c.DateTime(),
+                        CreateDate = c.DateTime(nullable: false),
+                        LastUpdateDate = c.DateTime(),
                     })
                 .PrimaryKey(t => t.DepartmentID);
             
@@ -56,8 +56,8 @@ namespace Data.Migrations
                         CodeCategoryID = c.Short(nullable: false, identity: true),
                         Code = c.String(nullable: false, maxLength: 20),
                         Description = c.String(nullable: false, maxLength: 300),
-                        CreateDtm = c.DateTime(nullable: false),
-                        LastUpdateDtm = c.DateTime(),
+                        CreateDate = c.DateTime(nullable: false),
+                        LastUpdateDate = c.DateTime(),
                     })
                 .PrimaryKey(t => t.CodeCategoryID);
             
@@ -69,8 +69,8 @@ namespace Data.Migrations
                         Code = c.String(nullable: false, maxLength: 20),
                         Description = c.String(nullable: false, maxLength: 300),
                         CodeCategoryID = c.Short(nullable: false),
-                        CreateDtm = c.DateTime(nullable: false),
-                        LastUpdateDtm = c.DateTime(),
+                        CreateDate = c.DateTime(nullable: false),
+                        LastUpdateDate = c.DateTime(),
                     })
                 .PrimaryKey(t => t.CodeID)
                 .ForeignKey("dbo.CodeCategory", t => t.CodeCategoryID)
@@ -81,12 +81,13 @@ namespace Data.Migrations
                 c => new
                     {
                         CustomerPolicyID = c.Int(nullable: false, identity: true),
-                        CustomerID = c.Guid(nullable: false),
-                        PolicyID = c.Guid(nullable: false),
-                        EfectiveStartDtm = c.DateTime(nullable: false),
+                        CustomerID = c.Int(nullable: false),
+                        PolicyID = c.Int(nullable: false),
+                        EffectiveStartDate = c.DateTime(nullable: false),
+                        DueDate = c.DateTime(nullable: false),
                         StatusID = c.Short(nullable: false),
-                        CreateDtm = c.DateTime(nullable: false),
-                        LastUpdateDtm = c.DateTime(),
+                        CreateDate = c.DateTime(nullable: false),
+                        LastUpdateDate = c.DateTime(),
                     })
                 .PrimaryKey(t => t.CustomerPolicyID)
                 .ForeignKey("dbo.Customer", t => t.CustomerID)
@@ -100,7 +101,7 @@ namespace Data.Migrations
                 "dbo.Customer",
                 c => new
                     {
-                        CustomerID = c.Guid(nullable: false),
+                        CustomerID = c.Int(nullable: false, identity: true),
                         Identification = c.String(maxLength: 15),
                         FirstName = c.String(nullable: false, maxLength: 50),
                         LastName = c.String(nullable: false, maxLength: 50),
@@ -109,8 +110,8 @@ namespace Data.Migrations
                         HomeAddress = c.String(nullable: false, maxLength: 100),
                         EmailAddress = c.String(nullable: false, maxLength: 80),
                         CityID = c.Int(nullable: false),
-                        CreateDtm = c.DateTime(nullable: false),
-                        LastUpdateDtm = c.DateTime(),
+                        CreateDate = c.DateTime(nullable: false),
+                        LastUpdateDate = c.DateTime(),
                     })
                 .PrimaryKey(t => t.CustomerID)
                 .ForeignKey("dbo.City", t => t.CityID)
@@ -120,17 +121,18 @@ namespace Data.Migrations
                 "dbo.Policy",
                 c => new
                     {
-                        PolicyID = c.Guid(nullable: false),
+                        DeleteDate = c.DateTime(),
+                        PolicyID = c.Int(nullable: false, identity: true),
                         Name = c.String(nullable: false, maxLength: 20),
                         Description = c.String(nullable: false, maxLength: 300),
-                        CoveragePercentaje = c.Decimal(nullable: false, precision: 18, scale: 2),
-                        Validity = c.Byte(nullable: false),
+                        CoveragePercentage = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        CoverageTerm = c.Byte(nullable: false),
                         Price = c.Decimal(nullable: false, precision: 18, scale: 2),
                         CoverageTypeID = c.Short(nullable: false),
                         RiskTypeID = c.Short(nullable: false),
                         PolicyStatusID = c.Short(nullable: false),
-                        CreateDtm = c.DateTime(nullable: false),
-                        LastUpdateDtm = c.DateTime(),
+                        CreateDate = c.DateTime(nullable: false),
+                        LastUpdateDate = c.DateTime(),
                     })
                 .PrimaryKey(t => t.PolicyID)
                 .ForeignKey("dbo.Code", t => t.CoverageTypeID)
@@ -140,14 +142,25 @@ namespace Data.Migrations
                 .Index(t => t.RiskTypeID)
                 .Index(t => t.PolicyStatusID);
             
+            CreateTable(
+                "dbo.User",
+                c => new
+                    {
+                        UserID = c.Int(nullable: false, identity: true),
+                        Email = c.String(nullable: false, maxLength: 80),
+                        Username = c.String(nullable: false, maxLength: 50),
+                        Password = c.String(nullable: false, maxLength: 100),
+                    })
+                .PrimaryKey(t => t.UserID);
+            
         }
         
         public override void Down()
         {
             DropForeignKey("dbo.CustomerPolicy", "StatusID", "dbo.Code");
-            DropForeignKey("dbo.CustomerPolicy", "PolicyID", "dbo.Policy");
             DropForeignKey("dbo.Policy", "RiskTypeID", "dbo.Code");
             DropForeignKey("dbo.Policy", "PolicyStatusID", "dbo.Code");
+            DropForeignKey("dbo.CustomerPolicy", "PolicyID", "dbo.Policy");
             DropForeignKey("dbo.Policy", "CoverageTypeID", "dbo.Code");
             DropForeignKey("dbo.CustomerPolicy", "CustomerID", "dbo.Customer");
             DropForeignKey("dbo.Customer", "CityID", "dbo.City");
@@ -164,6 +177,7 @@ namespace Data.Migrations
             DropIndex("dbo.Code", new[] { "CodeCategoryID" });
             DropIndex("dbo.City", new[] { "DepartmentID" });
             DropIndex("dbo.Agency", new[] { "CityID" });
+            DropTable("dbo.User");
             DropTable("dbo.Policy");
             DropTable("dbo.Customer");
             DropTable("dbo.CustomerPolicy");

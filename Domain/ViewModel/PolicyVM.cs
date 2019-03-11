@@ -4,7 +4,7 @@ namespace Domain.ViewModel
 {
     public class PolicyVM
     {
-        public Guid PolicyID { get; set; }
+        public int PolicyID { get; set; }
 
         public string Name { get; set; }
 

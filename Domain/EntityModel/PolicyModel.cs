@@ -8,8 +8,8 @@ namespace Domain.EntityModel
     [Table("Policy")]
     public class PolicyModel : BaseModel
     {
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public Guid PolicyID { get; set; } = new Guid();
+        [Key]
+        public int PolicyID { get; set; }
 
         [Required, StringLength(20, ErrorMessage = "Name accepts up to 20 characters")]
         public string Name { get; set; }
