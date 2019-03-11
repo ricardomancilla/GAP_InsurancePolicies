@@ -1,4 +1,5 @@
-﻿using Domain.EntityModel;
+﻿using AutoMapper;
+using Domain.EntityModel;
 using Domain.RepositoryContracts;
 using Domain.ServiceContracts;
 using Domain.ViewModel;
@@ -12,10 +13,12 @@ namespace Business.Services
     public class CustomerService : ICustomerService
     {
         private ICustomerRepository _repository;
+        private IMapper _mapper;
 
-        public CustomerService(ICustomerRepository repository)
+        public CustomerService(ICustomerRepository repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
         public CustomerVM Find(object id)
@@ -25,38 +28,19 @@ namespace Business.Services
             if (customer == null)
                 return null;
 
-            return new CustomerVM()
-            {
-                CustomerID = customer.CustomerID,
-                Identification = customer.Identification,
-                Name = $"{customer.FirstName} {customer.LastName}",
-                MobilePhoneNumber = customer.MobilePhoneNumber,
-                EmailAddress = customer.EmailAddress
-            };
+            return _mapper.Map<CustomerVM>(customer);
         }
 
-        public IQueryable<CustomerVM> FindBy(Expression<Func<CustomerModel, bool>> predicate)
+        public IEnumerable<CustomerVM> FindBy(Expression<Func<CustomerModel, bool>> predicate)
         {
-            return _repository.FindBy(predicate).Select(x => new CustomerVM()
-            {
-                CustomerID = x.CustomerID,
-                Identification = x.Identification,
-                Name = x.FirstName + " " + x.LastName,
-                MobilePhoneNumber = x.MobilePhoneNumber,
-                EmailAddress = x.EmailAddress
-            });
+            var customerList = _repository.FindBy(predicate).ToList();
+            return _mapper.Map<IQueryable<CustomerVM>>(customerList);
         }
 
         public IEnumerable<CustomerVM> GetAll()
         {
-            return _repository.GetAll().Select(x => new CustomerVM()
-            {
-                CustomerID = x.CustomerID,
-                Identification = x.Identification,
-                Name = $"{x.FirstName} {x.LastName}",
-                MobilePhoneNumber = x.MobilePhoneNumber,
-                EmailAddress = x.EmailAddress
-            });
+            var customerList = _repository.GetAll();
+            return _mapper.Map<IList<CustomerVM>>(customerList);
         }
     }
 }

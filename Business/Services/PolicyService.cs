@@ -1,4 +1,5 @@
-﻿using Business.Common;
+﻿using AutoMapper;
+using Business.Common;
 using Domain.EntityModel;
 using Domain.RepositoryContracts;
 using Domain.ServiceContracts;
@@ -15,12 +16,14 @@ namespace Business.Services
         private IPolicyRepository _repository;
         private ICustomerPolicyRespository _customerPolicyRepository;
         private ICodeService _codeService;
+        private IMapper _mapper;
 
-        public PolicyService(IPolicyRepository repository, ICustomerPolicyRespository customerPolicyRepository, ICodeService codeService)
+        public PolicyService(IPolicyRepository repository, ICustomerPolicyRespository customerPolicyRepository, ICodeService codeService, IMapper mapper)
         {
             _repository = repository;
             _customerPolicyRepository = customerPolicyRepository;
             _codeService = codeService;
+            _mapper = mapper;
         }
 
         public PolicyVM Find(object id)
@@ -51,14 +54,17 @@ namespace Business.Services
 
         public IEnumerable<PolicyVM> GetAll()
         {
+            var coverateTypeCodes = _codeService.GetCoverageTypeCodes().ToList();
+            var riskTypeCodes = _codeService.GetRiskTypeCodes().ToList();
+
             return _repository.GetAll().Select(x => new PolicyVM()
             {
                 PolicyID = x.PolicyID,
                 Name = x.Name,
                 Description = x.Description,
                 CoveragePercentaje = x.CoveragePercentage,
-                CoverageType = x.CoverageType.Code,
-                RiskType = x.RiskType.Code,
+                CoverageType = coverateTypeCodes.Where(y => y.CodeID.Equals(x.CoverageTypeID)).FirstOrDefault().Code,
+                RiskType = riskTypeCodes.Where(y => y.CodeID.Equals(x.RiskTypeID)).FirstOrDefault().Code,
                 Price = x.Price,
                 Validity = x.CoverageTerm,
                 PolicyStatusID = x.PolicyStatusID
@@ -76,6 +82,7 @@ namespace Business.Services
                 if (validateBusinessRuleResult.Sucess)
                 {
                     _repository.Insert(entity);
+                    _repository.SaveChanges();
                     return new EntityResult() { Sucess = true };
                 }
                 return validateBusinessRuleResult;
@@ -97,6 +104,7 @@ namespace Business.Services
                 if (validateBusinessRuleResult.Sucess)
                 {
                     _repository.Update(entity);
+                    _repository.SaveChanges();
                     return new EntityResult() { Sucess = true };
                 }
                 return validateBusinessRuleResult;
@@ -121,6 +129,7 @@ namespace Business.Services
                 if (validatePolicyNotInUseResult.Sucess)
                 {
                     _repository.Delete(policy);
+                    _repository.SaveChanges();
                     return new EntityResult() { Sucess = true };
                 }
                 return validatePolicyNotInUseResult;

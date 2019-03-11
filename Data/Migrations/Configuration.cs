@@ -1335,12 +1335,17 @@ namespace Data.Migrations
                 }
             });
 
-            context.Users.Add(new UserModel()
+            using (var hmac = new System.Security.Cryptography.HMACSHA512())
             {
-                Username = "Luis",
-                Password = "bc974680bb94583b3836a4378a600016",
-                Email = "luisricardomancilla@gmail.com"
-            });
+                context.Users.Add(new UserModel()
+                {
+                    Username = "Luis",
+                    Password = "bc974680bb94583b3836a4378a600016",
+                    Email = "luisricardomancilla@gmail.com",
+                    PasswordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes("bc974680bb94583b3836a4378a600016")),
+                    PasswordSalt = hmac.Key
+                });
+            }
         }
     }
 }

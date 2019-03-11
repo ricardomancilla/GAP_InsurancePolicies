@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using AutoMapper;
 using Business.Services;
 using Data;
 using Data.Repositories;
@@ -14,6 +15,9 @@ namespace API.IoC
         {
             builder.RegisterType<InsurancesContext>().As<IContext>();
 
+            //builder.RegisterType<Mapper>().As<IMapper>();
+            //builder.RegisterType<IMapper>();
+
             builder.RegisterType<AgencyService>().As<IAgencyService>();
             builder.RegisterType<AuthService>().As<IAuthService>();
             builder.RegisterType<CityService>().As<ICityService>();
@@ -23,6 +27,7 @@ namespace API.IoC
             builder.RegisterType<PolicyService>().As<IPolicyService>();
 
             builder.RegisterType<AgencyRepository>().As<IAgencyRepository>();
+            builder.RegisterType<AuthRepository>().As<IAuthRepository>();
             builder.RegisterType<CityRepository>().As<ICityRepository>();
             builder.RegisterType<CodeRepository>().As<ICodeRepository>();
             builder.RegisterType<CustomerRepository>().As<ICustomerRepository>();

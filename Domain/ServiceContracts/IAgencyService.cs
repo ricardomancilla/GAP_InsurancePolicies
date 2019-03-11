@@ -1,10 +1,10 @@
-﻿using Domain.EntityModel;
+﻿using Domain.ViewModel;
 using System.Collections.Generic;
 
 namespace Domain.ServiceContracts
 {
     public interface IAgencyService
     {
-        IEnumerable<AgencyModel> GetAll();
+        IEnumerable<AgencyVM> GetAll();
     }
 }

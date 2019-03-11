@@ -6,7 +6,6 @@ using System.Web.Http.Cors;
 namespace API.Controllers
 {
     [Authorize]
-    //[EnableCors(origins: "*", headers: "*", methods: "*")]
     public class CityController : ApiController
     {
         ICityService _service;

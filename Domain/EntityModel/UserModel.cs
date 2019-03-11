@@ -18,5 +18,9 @@ namespace Domain.EntityModel
 
         [Required, StringLength(100), DataType(DataType.Password)]
         public string Password { get; set; }
+
+        public byte[] PasswordHash { get; set; }
+
+        public byte[] PasswordSalt { get; set; }
     }
 }

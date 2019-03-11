@@ -1,29 +1,27 @@
-﻿using Domain.RepositoryContracts;
+﻿using AutoMapper;
+using Domain.RepositoryContracts;
 using Domain.ServiceContracts;
 using Domain.ViewModel;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 
 namespace Business.Services
 {
     public class DepartmentService : IDepartmentService
     {
-        IDepartmentRepository _respository;
+        private IDepartmentRepository _respository;
+        private IMapper _mapper;
 
-        public DepartmentService(IDepartmentRepository respository)
+        public DepartmentService(IDepartmentRepository respository, IMapper mapper)
         {
             _respository = respository;
+            _mapper = mapper;
         }
 
         public IEnumerable<DepartmentVM> GetAll()
         {
-            return _respository.GetAll().Select(x => new DepartmentVM()
-            {
-                DepartmentID = x.DepartmentID,
-                Name = x.Name,
-                PhoneCode = x.PhoneCode
-            });
+            var departmentList = _respository.GetAll();
+            return _mapper.Map<IList<DepartmentVM>>(departmentList);
         }
     }
 }

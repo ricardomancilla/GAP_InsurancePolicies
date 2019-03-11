@@ -10,34 +10,33 @@ namespace API.Providers
 {
     public class OAuthProvider : OAuthAuthorizationServerProvider
     {
-        public override Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
-        {
-            return Task.Factory.StartNew(() =>
-            {
-                var userName = context.UserName;
-                var password = context.Password;
-                var _authService = new AuthService();
-                var user = _authService.ValidateUser(userName, password);
-                if (user != null)
-                {
-                    var claims = new List<Claim>()
-                    {
-                        new Claim(ClaimTypes.Sid, Convert.ToString(user.UserID)),
-                        new Claim(ClaimTypes.Name, user.Username),
-                        new Claim(ClaimTypes.Email, user.Email)
-                    };
-                    ClaimsIdentity oAuthIdentity = new ClaimsIdentity(claims, Startup.OAuthOptions.AuthenticationType);
+        //public override Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
+        //{
+        //    return Task.Factory.StartNew(() =>
+        //    {
+        //        var userName = context.UserName;
+        //        var password = context.Password;
+        //        var _authService = new AuthService();
+        //        var user = _authService.ValidateUser(userName, password);
+        //        if (user != null)
+        //        {
+        //            var claims = new List<Claim>()
+        //            {
+        //                new Claim(ClaimTypes.Name, user.Username),
+        //                new Claim(ClaimTypes.Email, user.Email)
+        //            };
+        //            ClaimsIdentity oAuthIdentity = new ClaimsIdentity(claims, Startup.OAuthOptions.AuthenticationType);
 
-                    var properties = CreateProperties(user.Username);
-                    var ticket = new AuthenticationTicket(oAuthIdentity, properties);
-                    context.Validated(ticket);
-                }
-                else
-                {
-                    context.SetError("invalid_grant", "User name or password incorrect");
-                }
-            });
-        }
+        //            var properties = CreateProperties(user.Username);
+        //            var ticket = new AuthenticationTicket(oAuthIdentity, properties);
+        //            context.Validated(ticket);
+        //        }
+        //        else
+        //        {
+        //            context.SetError("invalid_grant", "Incorrect user name or password");
+        //        }
+        //    });
+        //}
         
         public override Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
         {

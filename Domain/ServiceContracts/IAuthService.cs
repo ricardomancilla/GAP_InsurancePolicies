@@ -1,10 +1,9 @@
-﻿using Domain.EntityModel;
-using Domain.ViewModel;
+﻿using Domain.ViewModel;
 
 namespace Domain.ServiceContracts
 {
     public interface IAuthService
     {
-        UserVM ValidateUser(string userName, string password);
+        UserVM Authenticate(string userName, string password);
     }
 }

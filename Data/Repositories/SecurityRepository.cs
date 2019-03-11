@@ -1,5 +1,4 @@
 ﻿using Domain.DbContextContracts;
-using Domain.EntityModel;
 using Domain.RepositoryContracts;
 using System;
 using System.Data.Entity;
@@ -8,20 +7,25 @@ using System.Linq.Expressions;
 
 namespace Data.Repositories
 {
-    public class SecurityRepository
+    public class SecurityRepository<T> : ISecurityRepository<T> where T : class
     {
-        protected InsurancesContext _dbContext;
-        private DbSet<UserModel> _dbSet;
+        protected IContext _dbContext;
+        private DbSet<T> _dbSet;
 
-        public SecurityRepository()
+        public SecurityRepository(IContext dbContext)
         {
-            _dbContext = new InsurancesContext();
-            _dbSet = _dbContext.Set<UserModel>();
+            _dbContext = dbContext;
+            _dbSet = _dbContext.Set<T>();
         }
 
-        public IQueryable<UserModel> FindBy(Expression<Func<UserModel, bool>> predicate)
+        public IQueryable<T> FindBy(Expression<Func<T, bool>> predicate)
         {
             return _dbSet.Where(predicate);
+        }
+
+        public void SaveChanges()
+        {
+            _dbContext.SaveChanges();
         }
     }
 }

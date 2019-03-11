@@ -1,10 +1,7 @@
-﻿using Autofac;
+﻿using API.Mapper;
+using Autofac;
 using Autofac.Integration.WebApi;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Web;
 
 namespace API.IoC
 {
@@ -14,6 +11,8 @@ namespace API.IoC
         {
             var builder = new ContainerBuilder();
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
+
+            builder.RegisterModule(new MapperInstaller());
 
             IContainer container = new IoC_Configuration().Container(builder);
             return container;

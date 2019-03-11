@@ -1,6 +1,7 @@
-﻿using Domain.EntityModel;
+﻿using AutoMapper;
 using Domain.RepositoryContracts;
 using Domain.ServiceContracts;
+using Domain.ViewModel;
 using System.Collections.Generic;
 
 namespace Business.Services
@@ -8,15 +9,18 @@ namespace Business.Services
     public class AgencyService : IAgencyService
     {
         private IAgencyRepository _repository;
+        private IMapper _mapper;
 
-        public AgencyService(IAgencyRepository repository)
+        public AgencyService(IAgencyRepository repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
-        public IEnumerable<AgencyModel> GetAll()
+        public IEnumerable<AgencyVM> GetAll()
         {
-            return _repository.GetAll();
+            var agencyList = _repository.GetAll();
+            return _mapper.Map<IEnumerable<AgencyVM>>(agencyList);
         }
     }
 }

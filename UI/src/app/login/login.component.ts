@@ -33,16 +33,12 @@ export class LoginComponent implements OnInit {
         this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
     }
 
-    // convenience getter for easy access to form fields
     get loginForm() { return this.loginFormGroup.controls; }
 
     onSubmit() {
         this.submitted = true;
 
-        // stop here if form is invalid
-        if (this.loginFormGroup.invalid) {
-            return;
-        }
+        if (this.loginFormGroup.invalid) { return; }
 
         this.loading = true;
         this.authenticationService.login(this.loginForm.username.value, this.loginForm.password.value)

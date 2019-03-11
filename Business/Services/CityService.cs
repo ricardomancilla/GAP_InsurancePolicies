@@ -1,4 +1,5 @@
-﻿using Domain.RepositoryContracts;
+﻿using AutoMapper;
+using Domain.RepositoryContracts;
 using Domain.ServiceContracts;
 using Domain.ViewModel;
 using System.Collections.Generic;
@@ -9,10 +10,12 @@ namespace Business.Services
     public class CityService : ICityService
     {
         private ICityRepository _repository;
+        private IMapper _mapper;
 
-        public CityService(ICityRepository repository)
+        public CityService(ICityRepository repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
         public CityVM Find(object id)
@@ -22,22 +25,13 @@ namespace Business.Services
             if (city == null)
                 return null;
 
-            return new CityVM()
-            {
-                CityID = city.CityID,
-                DepartmentID = city.DepartmentID,
-                Name = city.Name
-            };
+            return _mapper.Map<CityVM>(city);
         }
 
         public IEnumerable<CityVM> GetAll()
         {
-            return _repository.GetAll().Select(x => new CityVM()
-            {
-                CityID = x.CityID,
-                DepartmentID = x.DepartmentID,
-                Name = x.Name
-            });
+            var cityList = _repository.GetAll();
+            return _mapper.Map<IList<CityVM>>(cityList);
         }
     }
 }
