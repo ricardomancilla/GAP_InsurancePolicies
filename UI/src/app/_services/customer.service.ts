@@ -5,10 +5,12 @@ import { map } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class CustomerService {
+    private customerApiUrl: string = `${environment.apiUrl}/Customer`;
+    
     constructor(private http: HttpClient) { }
 
-    getCustomersByFilter(){
-        return this.http.get<any>(`${environment.apiUrl}/Customer/GetBy`, {  })
+    getCustomersByFilter(filter: string){
+        return this.http.get<any>(`${this.customerApiUrl}/GetBy/${filter}`)
             .pipe(map(customers => {
                 return customers;
             }));

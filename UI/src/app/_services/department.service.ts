@@ -5,10 +5,12 @@ import { map } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class DepartmentService {
+    private departmentApiUrl: string = `${environment.apiUrl}/Department`;
+    
     constructor(private http: HttpClient) { }
 
     getDepartments(){
-        return this.http.get<any>(`${environment.apiUrl}/Department/Get`)
+        return this.http.get<any>(`${this.departmentApiUrl}/Get`)
             .pipe(map(departments => {
                 return departments;
             }));

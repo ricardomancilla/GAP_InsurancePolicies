@@ -6,17 +6,19 @@ import { Policy } from '@app/_models';
 
 @Injectable({ providedIn: 'root' })
 export class PolicyService {
+    private policyApiUrl: string = `${environment.apiUrl}/Policy`;
+    
     constructor(private http: HttpClient) { }
 
     getPolicies(){
-        return this.http.get<any>(`${environment.apiUrl}/Policy/Get`)
+        return this.http.get<any>(`${this.policyApiUrl}/Get`)
             .pipe(map(policies => {
                 return policies;
             }));
     }
 
     getPolicyById(id: number){
-        return this.http.get<any>(`${environment.apiUrl}/Policy/Get/${id}`)
+        return this.http.get<any>(`${this.policyApiUrl}/Get/${id}`)
             .pipe(map(policy => {
                 return policy;
             }));
