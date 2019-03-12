@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 
 namespace Domain.RepositoryContracts
 {
-    public interface ICustomerPolicyRespository : IRepository<CustomerPolicyModel>
+    public interface ICustomerPolicyRepository : IRepository<CustomerPolicyModel>
     {
     }
 }

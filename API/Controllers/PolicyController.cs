@@ -1,7 +1,6 @@
 ﻿using Domain.EntityModel;
 using Domain.ServiceContracts;
 using Domain.ViewModel;
-using System;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +9,7 @@ using System.Web.Http;
 namespace API.Controllers
 {
     [Authorize]
-    public class PolicyController : ApiController
+    public class PolicyController : BaseApiController
     {
         IPolicyService _service;
 
@@ -24,7 +23,7 @@ namespace API.Controllers
         {
             return Json(new
             {
-                PolicyLIst = await Task.FromResult(_service.GetAll())
+                PolicyList = await Task.FromResult(_service.GetAll())
             });
         }
 
@@ -33,7 +32,7 @@ namespace API.Controllers
         {
             return Json(new
             {
-                PolicyLIst = await Task.FromResult(_service.FindBy(x => x.DeleteDate.Equals(null)).ToList())
+                PolicyList = await Task.FromResult(_service.FindBy(x => x.DeleteDate.Equals(null)).ToList())
             });
         }
 
@@ -46,15 +45,6 @@ namespace API.Controllers
                 return NotFound();
 
             return Json(policy);
-        }
-
-        [ActionName("GetBy/Customer")]
-        public async Task<IHttpActionResult> GetByCustomer(string filter)
-        {
-            return Json(new
-            {
-                PolicyLIst = await Task.FromResult(_service.FindBy(x => x.DeleteDate.Equals(null)).ToList())
-            });
         }
 
         [HttpPost]
@@ -99,20 +89,6 @@ namespace API.Controllers
                 Result = await Task.FromResult(_service.Delete(id))
             });
 
-        }
-
-        [NonAction]
-        private StringBuilder GetModelErrors(System.Web.Http.ModelBinding.ModelStateDictionary ModelState)
-        {
-            StringBuilder modelErrors = new StringBuilder();
-            foreach (var modelState in ModelState.Values)
-            {
-                foreach (var error in modelState.Errors)
-                {
-                    modelErrors.AppendLine(error.ErrorMessage);
-                }
-            }
-            return modelErrors;
         }
     }
 }

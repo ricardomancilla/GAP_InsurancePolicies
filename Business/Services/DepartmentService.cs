@@ -9,18 +9,18 @@ namespace Business.Services
 {
     public class DepartmentService : IDepartmentService
     {
-        private IDepartmentRepository _respository;
+        private IDepartmentRepository _repository;
         private IMapper _mapper;
 
         public DepartmentService(IDepartmentRepository respository, IMapper mapper)
         {
-            _respository = respository;
+            _repository = respository;
             _mapper = mapper;
         }
 
         public IEnumerable<DepartmentVM> GetAll()
         {
-            var departmentList = _respository.GetAll();
+            var departmentList = _repository.GetAll();
             return _mapper.Map<IList<DepartmentVM>>(departmentList);
         }
     }

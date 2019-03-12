@@ -8,7 +8,7 @@ using System.Web.Http;
 namespace API.Controllers
 {
     [Authorize]
-    public class CustomerController : ApiController
+    public class CustomerController : BaseApiController
     {
         ICustomerService _service;
 

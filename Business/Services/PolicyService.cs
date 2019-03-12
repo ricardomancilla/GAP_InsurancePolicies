@@ -14,11 +14,11 @@ namespace Business.Services
     public class PolicyService : IPolicyService
     {
         private IPolicyRepository _repository;
-        private ICustomerPolicyRespository _customerPolicyRepository;
+        private ICustomerPolicyRepository _customerPolicyRepository;
         private ICodeService _codeService;
         private IMapper _mapper;
 
-        public PolicyService(IPolicyRepository repository, ICustomerPolicyRespository customerPolicyRepository, ICodeService codeService, IMapper mapper)
+        public PolicyService(IPolicyRepository repository, ICustomerPolicyRepository customerPolicyRepository, ICodeService codeService, IMapper mapper)
         {
             _repository = repository;
             _customerPolicyRepository = customerPolicyRepository;
@@ -44,10 +44,9 @@ namespace Business.Services
                     CoverageType = coverateTypeCodes.Where(y => y.CodeID.Equals(x.CoverageTypeID)).FirstOrDefault().Code,
                     Description = x.Description,
                     Name = x.Name,
-                    PolicyStatusID = x.PolicyStatusID,
                     Price = x.Price,
                     RiskType = riskTypeCodes.Where(y => y.CodeID.Equals(x.RiskTypeID)).FirstOrDefault().Code,
-                    Validity = x.CoverageTerm
+                    CoverageTerm = x.CoverageTerm
                 }
             );
         }
@@ -66,8 +65,7 @@ namespace Business.Services
                 CoverageType = coverateTypeCodes.Where(y => y.CodeID.Equals(x.CoverageTypeID)).FirstOrDefault().Code,
                 RiskType = riskTypeCodes.Where(y => y.CodeID.Equals(x.RiskTypeID)).FirstOrDefault().Code,
                 Price = x.Price,
-                Validity = x.CoverageTerm,
-                PolicyStatusID = x.PolicyStatusID
+                CoverageTerm = x.CoverageTerm
             });
         }
 

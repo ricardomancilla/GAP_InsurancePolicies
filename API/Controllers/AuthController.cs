@@ -17,7 +17,7 @@ using System.Web.Http;
 namespace API.Controllers
 {
     [AllowAnonymous]
-    public class AuthController : ApiController
+    public class AuthController : BaseApiController
     {
         IAuthService _service;
 

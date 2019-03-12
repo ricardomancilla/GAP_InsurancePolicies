@@ -5,7 +5,7 @@ using System.Web.Http;
 namespace API.Controllers
 {
     [Authorize]
-    public class CodeController : ApiController
+    public class CodeController : BaseApiController
     {
         ICodeService _service;
 

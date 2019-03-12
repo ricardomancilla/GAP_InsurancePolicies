@@ -4,9 +4,9 @@ using Domain.RepositoryContracts;
 
 namespace Data.Repositories
 {
-    public class CustomerPolicyRespository : Repository<CustomerPolicyModel>, ICustomerPolicyRespository
+    public class CustomerPolicyRepository : Repository<CustomerPolicyModel>, ICustomerPolicyRepository
     {
-        public CustomerPolicyRespository(IContext dbContext)
+        public CustomerPolicyRepository(IContext dbContext)
             :base(dbContext)
         { }
     }

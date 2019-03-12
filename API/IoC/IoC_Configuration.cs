@@ -15,14 +15,12 @@ namespace API.IoC
         {
             builder.RegisterType<InsurancesContext>().As<IContext>();
 
-            //builder.RegisterType<Mapper>().As<IMapper>();
-            //builder.RegisterType<IMapper>();
-
             builder.RegisterType<AgencyService>().As<IAgencyService>();
             builder.RegisterType<AuthService>().As<IAuthService>();
             builder.RegisterType<CityService>().As<ICityService>();
             builder.RegisterType<CodeService>().As<ICodeService>();
             builder.RegisterType<CustomerService>().As<ICustomerService>();
+            builder.RegisterType<CustomerPolicyService>().As<ICustomerPolicyService>();
             builder.RegisterType<DepartmentService>().As<IDepartmentService>();
             builder.RegisterType<PolicyService>().As<IPolicyService>();
 
@@ -31,7 +29,7 @@ namespace API.IoC
             builder.RegisterType<CityRepository>().As<ICityRepository>();
             builder.RegisterType<CodeRepository>().As<ICodeRepository>();
             builder.RegisterType<CustomerRepository>().As<ICustomerRepository>();
-            builder.RegisterType<CustomerPolicyRespository>().As<ICustomerPolicyRespository>();
+            builder.RegisterType<CustomerPolicyRepository>().As<ICustomerPolicyRepository>();
             builder.RegisterType<DepartmentRepository>().As<IDepartmentRepository>();
             builder.RegisterType<PolicyRepository>().As<IPolicyRepository>();
 

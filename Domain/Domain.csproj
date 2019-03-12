@@ -81,6 +81,7 @@
     <Compile Include="ViewModel\AgencyVM.cs" />
     <Compile Include="ViewModel\CityVM.cs" />
     <Compile Include="ViewModel\CodeVM.cs" />
+    <Compile Include="ViewModel\CustomerPolicyVM.cs" />
     <Compile Include="ViewModel\CustomerVM.cs" />
     <Compile Include="ViewModel\DepartmentVM.cs" />
     <Compile Include="ViewModel\EntityResult.cs" />

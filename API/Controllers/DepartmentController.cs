@@ -5,7 +5,7 @@ using System.Web.Http;
 namespace API.Controllers
 {
     [Authorize]
-    public class DepartmentController : ApiController
+    public class DepartmentController : BaseApiController
     {
         IDepartmentService _service;
 

@@ -6,7 +6,7 @@ using System.Web.Http.Cors;
 namespace API.Controllers
 {
     [Authorize]
-    public class CityController : ApiController
+    public class CityController : BaseApiController
     {
         ICityService _service;
 

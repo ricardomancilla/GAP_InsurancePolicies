@@ -55,6 +55,7 @@
     <Compile Include="Services\AuthService.cs" />
     <Compile Include="Services\CityService.cs" />
     <Compile Include="Services\CodeService.cs" />
+    <Compile Include="Services\CustomerPolicyService.cs" />
     <Compile Include="Services\CustomerService.cs" />
     <Compile Include="Services\DepartmentService.cs" />
     <Compile Include="Services\PolicyService.cs" />
