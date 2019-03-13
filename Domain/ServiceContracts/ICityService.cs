@@ -8,8 +8,8 @@ namespace Domain.ServiceContracts
 {
     public interface ICityService
     {
-        IEnumerable<CityVM> GetAll();
+        ResponseEntityVM GetAll();
 
-        CityVM Find(object id);
+        ResponseEntityVM Find(object id);
     }
 }

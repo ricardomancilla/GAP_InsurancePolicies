@@ -1,7 +1,6 @@
 ﻿using Domain.EntityModel;
 using Domain.ServiceContracts;
 using Domain.ViewModel;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -21,30 +20,19 @@ namespace API.Controllers
         [ActionName("GetAll")]
         public async Task<IHttpActionResult> GetAll()
         {
-            return Json(new
-            {
-                PolicyList = await Task.FromResult(_service.GetAll())
-            });
+            return Result(await Task.FromResult(_service.GetAll()));
         }
 
         [ActionName("Get")]
         public async Task<IHttpActionResult> Get()
         {
-            return Json(new
-            {
-                PolicyList = await Task.FromResult(_service.FindBy(x => x.DeleteDate.Equals(null)).ToList())
-            });
+            return Result(await Task.FromResult(_service.FindBy(x => x.DeleteDate.Equals(null))));
         }
 
         [ActionName("Get")]
         public async Task<IHttpActionResult> Get(int id)
         {
-            var policy = await Task.FromResult(_service.Find(id));
-
-            if (policy == null)
-                return NotFound();
-
-            return Json(policy);
+            return Result(await Task.FromResult(_service.Find(id)));
         }
 
         [HttpPost]
@@ -53,14 +41,11 @@ namespace API.Controllers
             if (!ModelState.IsValid)
             {
                 StringBuilder modelErrors = GetModelErrors(ModelState);
-                var result = new EntityResult() { Sucess = false, ErrorMessage = modelErrors.ToString() };
-                return Content(System.Net.HttpStatusCode.BadRequest, result);
+                var result = new ResponseEntityVM() { StatusCode = System.Net.HttpStatusCode.BadRequest, Message = modelErrors.ToString() };
+                return Result(result);
             }
 
-            return Json(new
-            {
-                Result = await Task.FromResult(_service.Create(entity))
-            });
+            return Result(await Task.FromResult(_service.Create(entity)));
 
         }
 
@@ -70,24 +55,18 @@ namespace API.Controllers
             if (!ModelState.IsValid)
             {
                 StringBuilder modelErrors = GetModelErrors(ModelState);
-                var result = new EntityResult() { Sucess = false, ErrorMessage = modelErrors.ToString() };
-                return Content(System.Net.HttpStatusCode.BadRequest, result);
+                var result = new ResponseEntityVM() { StatusCode = System.Net.HttpStatusCode.BadRequest, Message = modelErrors.ToString() };
+                return Result(result);
             }
 
-            return Json(new
-            {
-                Result = await Task.FromResult(_service.Update(entity))
-            });
+            return Result(await Task.FromResult(_service.Update(entity)));
 
         }
 
         [HttpDelete]
         public async Task<IHttpActionResult> Delete(int id)
         {
-            return Json(new
-            {
-                Result = await Task.FromResult(_service.Delete(id))
-            });
+            return Result(await Task.FromResult(_service.Delete(id)));
 
         }
     }

@@ -2,8 +2,8 @@
 using Domain.RepositoryContracts;
 using Domain.ServiceContracts;
 using Domain.ViewModel;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Business.Services
 {
@@ -18,20 +18,34 @@ namespace Business.Services
             _mapper = mapper;
         }
 
-        public CityVM Find(object id)
+        public ResponseEntityVM Find(object id)
         {
-            var city = _repository.Find(id);
+            try
+            {
+                var city = _repository.Find(id);
 
-            if (city == null)
-                return null;
+                if (city == null)
+                    return new ResponseEntityVM() { StatusCode = System.Net.HttpStatusCode.NotFound };
 
-            return _mapper.Map<CityVM>(city);
+                return new ResponseEntityVM() { StatusCode = System.Net.HttpStatusCode.OK, Result = _mapper.Map<CityVM>(city) };
+            }
+            catch (Exception ex)
+            {
+                return new ResponseEntityVM() { StatusCode = System.Net.HttpStatusCode.InternalServerError, Message = $"There was an error getting the Cities: {ex.Message}" };
+            }
         }
 
-        public IEnumerable<CityVM> GetAll()
+        public ResponseEntityVM GetAll()
         {
-            var cityList = _repository.GetAll();
-            return _mapper.Map<IList<CityVM>>(cityList);
+            try
+            {
+                var cityList = _repository.GetAll();
+                return new ResponseEntityVM() { StatusCode = System.Net.HttpStatusCode.OK, Result = _mapper.Map<IList<CityVM>>(cityList) };
+            }
+            catch (Exception ex)
+            {
+                return new ResponseEntityVM() { StatusCode = System.Net.HttpStatusCode.InternalServerError, Message = $"There was an error getting the Cities: {ex.Message}" };
+            }
         }
     }
 }

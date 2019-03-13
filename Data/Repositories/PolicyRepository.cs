@@ -11,10 +11,10 @@ namespace Data.Repositories
             :base(dbContext)
         { }
 
-        public override void Insert(PolicyModel entity)
+        public override PolicyModel Insert(PolicyModel entity)
         {
             entity.CreateDate = DateTime.Now;
-            base.Insert(entity);
+            return base.Insert(entity);
         }
 
         public override void Update(PolicyModel entity)

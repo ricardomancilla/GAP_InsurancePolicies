@@ -27,7 +27,8 @@ export class AuthenticationService {
         const md5 = new Md5();
         password = md5.appendStr(password).end().toString();
         return this.http.post<any>(`${this.authApiUrl}/LogIn`, { username, password })
-            .pipe(map(user => {
+            .pipe(map(response => {
+                var user = JSON.parse(response);
                 if (user && user.Token) {
                     localStorage.setItem('currentUser', JSON.stringify(user));
                     this.currentUserSubject.next(user);

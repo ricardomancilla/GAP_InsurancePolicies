@@ -34,9 +34,8 @@ namespace API
                 name: "RouteWithCustomFilters2",
                 routeTemplate: "{controller}/{action}/{target}/{filter}"
             );
-
-            var jsonFormatter = config.Formatters.OfType<JsonMediaTypeFormatter>().First();
-            jsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            
+            config.Formatters.JsonFormatter.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented;
         }
     }
 }

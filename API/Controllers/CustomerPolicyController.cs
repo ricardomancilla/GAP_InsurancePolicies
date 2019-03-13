@@ -21,20 +21,14 @@ namespace API.Controllers
         [ActionName("Get")]
         public async Task<IHttpActionResult> GetAll()
         {
-            return Json(new
-            {
-                PolicyAssociationList = await Task.FromResult(_service.GetAll())
-            });
+            return Result(await Task.FromResult(_service.GetAll()));
         }
 
         [ActionName("Get")]
         public async Task<IHttpActionResult> GetBy(CustomerPolicyVM filter)
         {
             var predicate = getPredicate(filter);
-            return Json(new
-            {
-                PolicyAssociationList = await Task.FromResult(_service.FindBy(predicate))
-            });
+            return Result(await Task.FromResult(_service.FindBy(predicate)));
         }
 
         [HttpPost]
@@ -43,24 +37,18 @@ namespace API.Controllers
             if (!ModelState.IsValid)
             {
                 StringBuilder modelErrors = GetModelErrors(ModelState);
-                var result = new EntityResult() { Sucess = false, ErrorMessage = modelErrors.ToString() };
-                return Content(System.Net.HttpStatusCode.BadRequest, result);
+                var result = new ResponseEntityVM() { StatusCode = System.Net.HttpStatusCode.BadRequest, Message = modelErrors.ToString() };
+                return Result(result);
             }
 
-            return Json(new
-            {
-                Result = await Task.FromResult(_service.AssignPolicy(entity))
-            });
+            return Result(await Task.FromResult(_service.AssignPolicy(entity)));
 
         }
 
         [HttpDelete]
         public async Task<IHttpActionResult> Delete(int id)
         {
-            return Json(new
-            {
-                Result = await Task.FromResult(_service.CancelPolicy(id))
-            });
+            return Result(await Task.FromResult(_service.CancelPolicy(id)));
 
         }
 

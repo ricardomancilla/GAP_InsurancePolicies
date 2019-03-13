@@ -34,9 +34,9 @@ namespace Data.Repositories
             return _dbSet.Where(predicate);
         }
 
-        public virtual void Insert(T entity)
+        public virtual T Insert(T entity)
         {
-            _dbSet.Add(entity);
+            return _dbSet.Add(entity);
         }
 
         public void Delete(object id)

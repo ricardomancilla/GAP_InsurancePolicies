@@ -18,10 +18,7 @@ namespace API.Controllers
         [ActionName("Get")]
         public async Task<IHttpActionResult> GetAll()
         {
-            return Json(new
-            {
-                DepartmentList = await Task.FromResult(_service.GetAll())
-            });
+            return Result(await Task.FromResult(_service.GetAll()));
         }
     }
 }

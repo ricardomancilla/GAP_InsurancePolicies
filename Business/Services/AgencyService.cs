@@ -2,6 +2,7 @@
 using Domain.RepositoryContracts;
 using Domain.ServiceContracts;
 using Domain.ViewModel;
+using System;
 using System.Collections.Generic;
 
 namespace Business.Services
@@ -17,10 +18,17 @@ namespace Business.Services
             _mapper = mapper;
         }
 
-        public IEnumerable<AgencyVM> GetAll()
+        public ResponseEntityVM GetAll()
         {
-            var agencyList = _repository.GetAll();
-            return _mapper.Map<IEnumerable<AgencyVM>>(agencyList);
+            try
+            {
+                var agencyList = _repository.GetAll();
+                return new ResponseEntityVM() { StatusCode = System.Net.HttpStatusCode.OK, Result = _mapper.Map<IEnumerable<AgencyVM>>(agencyList) };
+            }
+            catch (Exception ex)
+            {
+                return new ResponseEntityVM() { StatusCode = System.Net.HttpStatusCode.InternalServerError, Message = $"There was an error getting the Agencies: {ex.Message}" };
+            }
         }
     }
 }

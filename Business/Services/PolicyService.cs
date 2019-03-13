@@ -26,132 +26,162 @@ namespace Business.Services
             _mapper = mapper;
         }
 
-        public PolicyVM Find(object id)
+        public ResponseEntityVM Find(object id)
         {
-            return FindBy(x => x.PolicyID.Equals(id)).FirstOrDefault();
+            try
+            {
+                var policy = ((List<PolicyVM>)FindBy(x => x.PolicyID.Equals(id)).Result).FirstOrDefault();
+
+                if (policy == null)
+                    return new ResponseEntityVM() { StatusCode = System.Net.HttpStatusCode.NotFound };
+
+                return new ResponseEntityVM() { StatusCode = System.Net.HttpStatusCode.OK, Result = policy };
+            }
+            catch (Exception ex)
+            {
+                return new ResponseEntityVM() { StatusCode = System.Net.HttpStatusCode.InternalServerError, Message = $"There was an error getting the Policies: {ex.Message}" };
+            }
         }
 
-        public IQueryable<PolicyVM> FindBy(Expression<Func<PolicyModel, bool>> predicate)
+        public ResponseEntityVM FindBy(Expression<Func<PolicyModel, bool>> predicate)
         {
-            var coverateTypeCodes = _codeService.GetCoverageTypeCodes().ToList();
-            var riskTypeCodes = _codeService.GetRiskTypeCodes().ToList();
+            try
+            {
+                var coverateTypeCodes = ((List<CodeVM>)_codeService.GetCoverageTypeCodes().Result).ToList();
+                var riskTypeCodes = ((List<CodeVM>)_codeService.GetRiskTypeCodes().Result).ToList();
 
-            return _repository.FindBy(predicate).Where(x => x.DeleteDate.Equals(null)).Select(x =>
-                new PolicyVM()
+                var policyList = _repository.FindBy(predicate).Where(x => x.DeleteDate.Equals(null)).Select(x =>
+                    new PolicyVM()
+                    {
+                        PolicyID = x.PolicyID,
+                        CoveragePercentaje = x.CoveragePercentage,
+                        CoverageType = coverateTypeCodes.Where(y => y.CodeID.Equals(x.CoverageTypeID)).FirstOrDefault().Code,
+                        Description = x.Description,
+                        Name = x.Name,
+                        Price = x.Price,
+                        RiskType = riskTypeCodes.Where(y => y.CodeID.Equals(x.RiskTypeID)).FirstOrDefault().Code,
+                        CoverageTerm = x.CoverageTerm
+                    }
+                );
+
+                return new ResponseEntityVM() { StatusCode = System.Net.HttpStatusCode.OK, Result = policyList };
+            }
+            catch (Exception ex)
+            {
+                return new ResponseEntityVM() { StatusCode = System.Net.HttpStatusCode.InternalServerError, Message = $"There was an error getting the Policies: {ex.Message}" };
+            }
+        }
+
+        public ResponseEntityVM GetAll()
+        {
+            try
+            {
+                var coverateTypeCodes = ((List<CodeVM>)_codeService.GetCoverageTypeCodes().Result).ToList();
+                var riskTypeCodes = ((List<CodeVM>)_codeService.GetRiskTypeCodes().Result).ToList();
+
+                var policyList = _repository.GetAll().Select(x => new PolicyVM()
                 {
                     PolicyID = x.PolicyID,
+                    Name = x.Name,
+                    Description = x.Description,
                     CoveragePercentaje = x.CoveragePercentage,
                     CoverageType = coverateTypeCodes.Where(y => y.CodeID.Equals(x.CoverageTypeID)).FirstOrDefault().Code,
-                    Description = x.Description,
-                    Name = x.Name,
-                    Price = x.Price,
                     RiskType = riskTypeCodes.Where(y => y.CodeID.Equals(x.RiskTypeID)).FirstOrDefault().Code,
+                    Price = x.Price,
                     CoverageTerm = x.CoverageTerm
-                }
-            );
-        }
+                });
 
-        public IEnumerable<PolicyVM> GetAll()
-        {
-            var coverateTypeCodes = _codeService.GetCoverageTypeCodes().ToList();
-            var riskTypeCodes = _codeService.GetRiskTypeCodes().ToList();
-
-            return _repository.GetAll().Select(x => new PolicyVM()
+                return new ResponseEntityVM() { StatusCode = System.Net.HttpStatusCode.OK, Result = policyList };
+            }
+            catch (Exception ex)
             {
-                PolicyID = x.PolicyID,
-                Name = x.Name,
-                Description = x.Description,
-                CoveragePercentaje = x.CoveragePercentage,
-                CoverageType = coverateTypeCodes.Where(y => y.CodeID.Equals(x.CoverageTypeID)).FirstOrDefault().Code,
-                RiskType = riskTypeCodes.Where(y => y.CodeID.Equals(x.RiskTypeID)).FirstOrDefault().Code,
-                Price = x.Price,
-                CoverageTerm = x.CoverageTerm
-            });
+                return new ResponseEntityVM() { StatusCode = System.Net.HttpStatusCode.InternalServerError, Message = $"There was an error getting the Policies: {ex.Message}" };
+            }
         }
 
-        public EntityResult Create(PolicyModel entity)
+        public ResponseEntityVM Create(PolicyModel entity)
         {
             try
             {
                 var highRiskType = RiskTypeEnum.High.ToString("G");
-                var highRiskTypeCode = _codeService.GetRiskTypeCodes().Where(x => x.Code.Equals(highRiskType)).FirstOrDefault();
+                var highRiskTypeCode = ((List<CodeVM>)_codeService.GetRiskTypeCodes().Result).Where(x => x.Code.Equals(highRiskType)).FirstOrDefault();
                 var validateBusinessRuleResult = ValidateBusinessRule(entity, highRiskTypeCode);
 
-                if (validateBusinessRuleResult.Sucess)
+                if (validateBusinessRuleResult.StatusCode == System.Net.HttpStatusCode.OK)
                 {
-                    _repository.Insert(entity);
+                    var entityResult = _repository.Insert(entity);
                     _repository.SaveChanges();
-                    return new EntityResult() { Sucess = true };
+                    return new ResponseEntityVM() { StatusCode = System.Net.HttpStatusCode.Created, Result = entityResult };
                 }
                 return validateBusinessRuleResult;
             }
             catch (Exception ex)
             {
-                return new EntityResult() { Sucess = false, ErrorMessage = $"There was an error creating the policy: {ex.Message}" };
+                return new ResponseEntityVM() { StatusCode = System.Net.HttpStatusCode.InternalServerError, Message = $"There was an error creating the policy: {ex.Message}" };
             }
         }
 
-        public EntityResult Update(PolicyModel entity)
+        public ResponseEntityVM Update(PolicyModel entity)
         {
             try
             {
                 var highRiskType = RiskTypeEnum.High.ToString("G");
-                var highRiskTypeCode = _codeService.GetRiskTypeCodes().Where(x => x.Code.Equals(highRiskType)).FirstOrDefault();
+                var highRiskTypeCode = ((List<CodeVM>)_codeService.GetRiskTypeCodes().Result).Where(x => x.Code.Equals(highRiskType)).FirstOrDefault();
                 var validateBusinessRuleResult = ValidateBusinessRule(entity, highRiskTypeCode);
 
-                if (validateBusinessRuleResult.Sucess)
+                if (validateBusinessRuleResult.StatusCode == System.Net.HttpStatusCode.OK)
                 {
                     _repository.Update(entity);
                     _repository.SaveChanges();
-                    return new EntityResult() { Sucess = true };
+                    return new ResponseEntityVM() { StatusCode = System.Net.HttpStatusCode.NoContent };
                 }
                 return validateBusinessRuleResult;
             }
             catch (Exception ex)
             {
-                return new EntityResult() { Sucess = false, ErrorMessage = $"There was an error updating the policy: {ex.Message}" };
+                return new ResponseEntityVM() { StatusCode = System.Net.HttpStatusCode.InternalServerError, Message = $"There was an error updating the policy: {ex.Message}" };
             }
         }
 
-        public EntityResult Delete(object id)
+        public ResponseEntityVM Delete(object id)
         {
             try
             {
                 var policy = _repository.Find(id);
 
-                if(policy == null)
-                    return new EntityResult() { Sucess = false, ErrorMessage = "Policy not found." };
+                if (policy == null)
+                    return new ResponseEntityVM() { StatusCode = System.Net.HttpStatusCode.NotFound };
 
                 var validatePolicyNotInUseResult = ValidatePolicyNotInUse(policy);
 
-                if (validatePolicyNotInUseResult.Sucess)
+                if (validatePolicyNotInUseResult.StatusCode == System.Net.HttpStatusCode.OK)
                 {
                     _repository.Delete(policy);
                     _repository.SaveChanges();
-                    return new EntityResult() { Sucess = true };
+                    return new ResponseEntityVM() { StatusCode = System.Net.HttpStatusCode.NoContent };
                 }
                 return validatePolicyNotInUseResult;
             }
             catch (Exception ex)
             {
-                return new EntityResult() { Sucess = false, ErrorMessage = $"There was an error deleting the policy: {ex.Message}" };
+                return new ResponseEntityVM() { StatusCode = System.Net.HttpStatusCode.InternalServerError, Message = $"There was an error deleting the policy: {ex.Message}" };
             }
         }
 
-        private EntityResult ValidateBusinessRule(PolicyModel entity, CodeVM highRiskTypeCode)
+        private ResponseEntityVM ValidateBusinessRule(PolicyModel entity, CodeVM highRiskTypeCode)
         {
-            var result = new EntityResult() { Sucess = true };
+            var result = new ResponseEntityVM() { StatusCode = System.Net.HttpStatusCode.OK };
 
             if (entity.RiskTypeID == highRiskTypeCode.CodeID && entity.CoveragePercentage > RiskTypeEnum.High.GetHashCode())
             {
-                result.Sucess = false;
-                result.ErrorMessage = $"The coverage percentage cannot be over {RiskTypeEnum.High.GetHashCode()}% for High Risk coverage type.";
+                result.StatusCode = System.Net.HttpStatusCode.Forbidden;
+                result.Message = $"The coverage percentage cannot be over {RiskTypeEnum.High.GetHashCode()}% for High Risk coverage type.";
             }
 
             return result;
         }
 
-        private EntityResult ValidatePolicyNotInUse(PolicyModel entity)
+        private ResponseEntityVM ValidatePolicyNotInUse(PolicyModel entity)
         {
             var assignedPolicyStatus = PolicyStatusEnum.Assigned.ToString("G");
 
@@ -160,10 +190,10 @@ namespace Business.Services
                 x.Status.Code.Equals(assignedPolicyStatus) &&
                 x.DueDate > DateTime.Now).ToList();
 
-            return new EntityResult()
+            return new ResponseEntityVM()
             {
-                Sucess = customerPolicyList.Count == 0,
-                ErrorMessage = customerPolicyList.Count > 0 ? "The policy cannot be deleted, there is at least one customer with the policy assigned." : string.Empty
+                StatusCode = customerPolicyList.Count == 0 ? System.Net.HttpStatusCode.OK : System.Net.HttpStatusCode.Forbidden ,
+                Message = customerPolicyList.Count > 0 ? "The policy cannot be deleted, there is at least one customer with the policy assigned." : string.Empty
             };
         }
     }

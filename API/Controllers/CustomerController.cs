@@ -1,7 +1,4 @@
-﻿using Domain.EntityModel;
-using Domain.ServiceContracts;
-using System;
-using System.Linq.Expressions;
+﻿using Domain.ServiceContracts;
 using System.Threading.Tasks;
 using System.Web.Http;
 
@@ -20,33 +17,20 @@ namespace API.Controllers
         [ActionName("Get")]
         public async Task<IHttpActionResult> GetAll()
         {
-            return Json(new
-            {
-                CustomerList = await Task.FromResult(_service.GetAll())
-            });
+            return Result(await Task.FromResult(_service.GetAll()));
         }
 
         [ActionName("Get")]
         public async Task<IHttpActionResult> Get(int id)
         {
-            var customer = await Task.FromResult(_service.Find(id));
-
-            if (customer == null)
-                return NotFound();
-
-            return Json(customer);
+            return Result(await Task.FromResult(_service.Find(id)));
         }
 
         [ActionName("GetBy")]
         public async Task<IHttpActionResult> GetBy(string filter)
         {
-            Expression<Func<CustomerModel, bool>> predicate = (x => x.Identification.Contains(filter)
-                || x.FirstName.Contains(filter) || x.LastName.Contains(filter));
-
-            return Json(new
-            {
-                CustomerList = await Task.FromResult(_service.FindBy(predicate))
-            });
+            return Result(await Task.FromResult(_service.FindBy(x => x.Identification.Contains(filter)
+                || x.FirstName.Contains(filter) || x.LastName.Contains(filter))));
         }
     }
 }

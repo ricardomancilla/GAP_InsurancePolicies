@@ -3,6 +3,7 @@ using Business.Common;
 using Domain.RepositoryContracts;
 using Domain.ServiceContracts;
 using Domain.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -19,28 +20,35 @@ namespace Business.Services
             _mapper = mapper;
         }
 
-        public IEnumerable<CodeVM> GetCoverageTypeCodes()
+        public ResponseEntityVM GetCoverageTypeCodes()
         {
             var coverageTypeCode = CodeCategoryEnum.COVERAGE_TYPE.ToString("G");
             return GetCodeListMapped(coverageTypeCode);
         }
 
-        public IEnumerable<CodeVM> GetPolicyStatusCodes()
+        public ResponseEntityVM GetPolicyStatusCodes()
         {
             var policyStatusCode = CodeCategoryEnum.POLICY_STATUS.ToString("G");
             return GetCodeListMapped(policyStatusCode);
         }
 
-        public IEnumerable<CodeVM> GetRiskTypeCodes()
+        public ResponseEntityVM GetRiskTypeCodes()
         {
             var riskTypeCode = CodeCategoryEnum.RISK_TYPE.ToString("G");
             return GetCodeListMapped(riskTypeCode);
         }
 
-        private IEnumerable<CodeVM> GetCodeListMapped(string code)
+        private ResponseEntityVM GetCodeListMapped(string code)
         {
-            var codeList = _repository.FindBy(x => x.CodeCategory.Code.Equals(code)).ToList();
-            return _mapper.Map<IList<CodeVM>>(codeList);
+            try
+            {
+                var codeList = _repository.FindBy(x => x.CodeCategory.Code.Equals(code)).ToList();
+                return new ResponseEntityVM() { StatusCode = System.Net.HttpStatusCode.OK, Result = _mapper.Map<IList<CodeVM>>(codeList) };
+            }
+            catch (Exception ex)
+            {
+                return new ResponseEntityVM() { StatusCode = System.Net.HttpStatusCode.InternalServerError, Message = $"There was an error getting the Codes: {ex.Message}" };
+            }
         }
     }
 }

@@ -9,16 +9,16 @@ namespace Domain.ServiceContracts
 {
     public interface IPolicyService
     {
-        PolicyVM Find(object id);
+        ResponseEntityVM Find(object id);
 
-        IQueryable<PolicyVM> FindBy(Expression<Func<PolicyModel, bool>> predicate);
+        ResponseEntityVM FindBy(Expression<Func<PolicyModel, bool>> predicate);
 
-        IEnumerable<PolicyVM> GetAll();
+        ResponseEntityVM GetAll();
 
-        EntityResult Create(PolicyModel entity);
+        ResponseEntityVM Create(PolicyModel entity);
 
-        EntityResult Update(PolicyModel entity);
+        ResponseEntityVM Update(PolicyModel entity);
 
-        EntityResult Delete(object id);
+        ResponseEntityVM Delete(object id);
     }
 }

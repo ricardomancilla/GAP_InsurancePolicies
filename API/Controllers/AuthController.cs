@@ -1,16 +1,6 @@
-﻿using Business.Services;
-using Domain.ServiceContracts;
+﻿using Domain.ServiceContracts;
 using Domain.ViewModel;
-using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Net;
-using System.Net.Http;
-using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 
@@ -29,19 +19,14 @@ namespace API.Controllers
         [HttpPost, ActionName("LogIn")]
         public async Task<IHttpActionResult> Authenticate(UserVM filter)
         {
-            var user = await Task.FromResult(_service.Authenticate(filter.Username, filter.Password));
+            var result = await Task.FromResult(_service.Authenticate(filter.Username, filter.Password));
 
-            if (user == null)
-                return BadRequest("Username or password is incorrect");
+            if (result.StatusCode != HttpStatusCode.OK)
+                return Result(result);
 
-            var tokenString = Authorization.TokenGenerator.GenerateTokenJwt(user.Username);
+            ((UserVM)result.Result).Token = Authorization.TokenGenerator.GenerateTokenJwt(((UserVM)result.Result).Username);
 
-            return Json(new UserVM()
-            {
-                Username = user.Username,
-                Email = user.Email,
-                Token = tokenString
-            });
+            return Result(result);
         }
     }
 }

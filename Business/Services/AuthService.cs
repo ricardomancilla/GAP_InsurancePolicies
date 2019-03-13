@@ -19,27 +19,23 @@ namespace Business.Services
             _mapper = mapper;
         }
 
-        public UserVM Authenticate(string userName, string password)
+        public ResponseEntityVM Authenticate(string userName, string password)
         {
-            var user = _repository.FindBy(x => x.Username.Equals(userName)).FirstOrDefault();
+            try
+            {
+                var user = _repository.FindBy(x => x.Username.Equals(userName)).FirstOrDefault();
 
-            if (user == null)
-                return null;
+                if ((user == null) || (!VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt)))
+                    return new ResponseEntityVM() { StatusCode = System.Net.HttpStatusCode.Forbidden, Message = "Incorrect username or password" };
 
-            if (!VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
-                return null;
+                user.Password = string.Empty;
 
-            return _mapper.Map<UserVM>(user);
-        }
-
-        public UserVM Find(object id)
-        {
-            var user = _repository.FindBy(x => x.UserID.Equals(id));
-
-            if (user == null)
-                return null;
-
-            return _mapper.Map<UserVM>(user);
+                return new ResponseEntityVM() { StatusCode = System.Net.HttpStatusCode.OK, Result = _mapper.Map<UserVM>(user) };
+            }
+            catch (Exception ex)
+            {
+                return new ResponseEntityVM() { StatusCode = System.Net.HttpStatusCode.InternalServerError, Message = $"There was an error authenticating the user: {ex.Message}" };
+            }
         }
 
         private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)

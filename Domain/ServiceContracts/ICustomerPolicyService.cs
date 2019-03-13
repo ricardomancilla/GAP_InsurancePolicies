@@ -11,12 +11,12 @@ namespace Domain.ServiceContracts
 {
     public interface ICustomerPolicyService
     {
-        IEnumerable<CustomerPolicyVM> FindBy(Expression<Func<CustomerPolicyModel, bool>> predicate);
+        ResponseEntityVM FindBy(Expression<Func<CustomerPolicyModel, bool>> predicate);
 
-        IEnumerable<CustomerPolicyVM> GetAll();
+        ResponseEntityVM GetAll();
 
-        EntityResult AssignPolicy(CustomerPolicyModel entity);
+        ResponseEntityVM AssignPolicy(CustomerPolicyModel entity);
 
-        EntityResult CancelPolicy(object id);
+        ResponseEntityVM CancelPolicy(object id);
     }
 }

@@ -15,14 +15,19 @@ namespace API.Controllers
         }
 
         [ActionName("Get")]
-        public async Task<IHttpActionResult> GetCodes()
+        public async Task<IHttpActionResult> GetCodes(string filter)
         {
-            return Json(new
+            switch (filter)
             {
-                CoverageTypeList = await Task.FromResult(_service.GetCoverageTypeCodes()),
-                PolicyStatusLIst = await Task.FromResult(_service.GetPolicyStatusCodes()),
-                RiskTypeList = await Task.FromResult(_service.GetRiskTypeCodes())
-            });
+                case "COVERAGE":
+                    return Result(await Task.FromResult(_service.GetCoverageTypeCodes()));
+                case "POLICY":
+                    return Result(await Task.FromResult(_service.GetPolicyStatusCodes()));
+                case "RISK":
+                    return Result(await Task.FromResult(_service.GetRiskTypeCodes()));
+                default:
+                    return Result(new Domain.ViewModel.ResponseEntityVM() { StatusCode = System.Net.HttpStatusCode.NotFound });
+            }
         }
     }
 }

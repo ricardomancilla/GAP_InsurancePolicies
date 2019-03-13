@@ -5,10 +5,10 @@ namespace Domain.ServiceContracts
 {
     public interface ICodeService
     {
-        IEnumerable<CodeVM> GetRiskTypeCodes();
+        ResponseEntityVM GetRiskTypeCodes();
 
-        IEnumerable<CodeVM> GetCoverageTypeCodes();
+        ResponseEntityVM GetCoverageTypeCodes();
 
-        IEnumerable<CodeVM> GetPolicyStatusCodes();
+        ResponseEntityVM GetPolicyStatusCodes();
     }
 }

@@ -10,7 +10,7 @@ namespace Domain.RepositoryContracts
         IEnumerable<T> GetAll();
         T Find(object id);
         IQueryable<T> FindBy(Expression<Func<T, bool>> predicate);
-        void Insert(T entity);
+        T Insert(T entity);
         void Delete(object id);
         void Delete(T entity);
         void Update(T entity);

@@ -21,26 +21,47 @@ namespace Business.Services
             _mapper = mapper;
         }
 
-        public CustomerVM Find(object id)
+        public ResponseEntityVM Find(object id)
         {
-            var customer = _repository.Find(id);
+            try
+            {
+                var customer = _repository.Find(id);
 
-            if (customer == null)
-                return null;
+                if (customer == null)
+                    return new ResponseEntityVM() { StatusCode = System.Net.HttpStatusCode.NotFound };
 
-            return _mapper.Map<CustomerVM>(customer);
+                return new ResponseEntityVM() { StatusCode = System.Net.HttpStatusCode.OK, Result = _mapper.Map<CustomerVM>(customer) };
+            }
+            catch (Exception ex)
+            {
+                return new ResponseEntityVM() { StatusCode = System.Net.HttpStatusCode.InternalServerError, Message = $"There was an error getting the Customer: {ex.Message}" };
+            }
         }
 
-        public IEnumerable<CustomerVM> FindBy(Expression<Func<CustomerModel, bool>> predicate)
+        public ResponseEntityVM FindBy(Expression<Func<CustomerModel, bool>> predicate)
         {
-            var customerList = _repository.FindBy(predicate).ToList();
-            return _mapper.Map<IQueryable<CustomerVM>>(customerList);
+            try
+            {
+                var customerList = _repository.FindBy(predicate).ToList();
+                return new ResponseEntityVM() { StatusCode = System.Net.HttpStatusCode.OK, Result = _mapper.Map<IQueryable<CustomerVM>>(customerList) };
+            }
+            catch (Exception ex)
+            {
+                return new ResponseEntityVM() { StatusCode = System.Net.HttpStatusCode.InternalServerError, Message = $"There was an error getting the Customer: {ex.Message}" };
+            }
         }
 
-        public IEnumerable<CustomerVM> GetAll()
+        public ResponseEntityVM GetAll()
         {
-            var customerList = _repository.GetAll();
-            return _mapper.Map<IList<CustomerVM>>(customerList);
+            try
+            {
+                var customerList = _repository.GetAll();
+                return new ResponseEntityVM() { StatusCode = System.Net.HttpStatusCode.OK, Result = _mapper.Map<IList<CustomerVM>>(customerList) };
+            }
+            catch (Exception ex)
+            {
+                return new ResponseEntityVM() { StatusCode = System.Net.HttpStatusCode.InternalServerError, Message = $"There was an error getting the Customers: {ex.Message}" };
+            }
         }
     }
 }

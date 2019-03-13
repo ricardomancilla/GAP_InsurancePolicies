@@ -84,7 +84,7 @@
     <Compile Include="ViewModel\CustomerPolicyVM.cs" />
     <Compile Include="ViewModel\CustomerVM.cs" />
     <Compile Include="ViewModel\DepartmentVM.cs" />
-    <Compile Include="ViewModel\EntityResult.cs" />
+    <Compile Include="ViewModel\ResponseEntityVM.cs" />
     <Compile Include="ViewModel\PolicyVM.cs" />
     <Compile Include="ViewModel\UserVM.cs" />
   </ItemGroup>

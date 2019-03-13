@@ -1,4 +1,7 @@
-﻿using System.Text;
+﻿using Domain.ViewModel;
+using Newtonsoft.Json;
+using System.Net;
+using System.Text;
 using System.Web.Http;
 
 namespace API.Controllers
@@ -16,6 +19,26 @@ namespace API.Controllers
                 }
             }
             return modelErrors;
+        }
+
+        protected IHttpActionResult Result(ResponseEntityVM responseEntity)
+        {
+            switch (responseEntity.StatusCode)
+            {
+                case (HttpStatusCode.OK):
+                case (HttpStatusCode.Created):
+                    return Content(responseEntity.StatusCode, JsonConvert.SerializeObject(responseEntity.Result));
+                case (HttpStatusCode.NoContent):
+                case (HttpStatusCode.NotFound):
+                    return StatusCode(responseEntity.StatusCode);
+                case (HttpStatusCode.BadRequest):
+                case (HttpStatusCode.Forbidden):
+                case (HttpStatusCode.Conflict):
+                case (HttpStatusCode.InternalServerError):
+                    return Content(responseEntity.StatusCode, responseEntity.Message);
+                default:
+                    return Ok();
+            }
         }
     }
 }
