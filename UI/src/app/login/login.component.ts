@@ -2,6 +2,7 @@
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
+import { Md5 } from 'ts-md5/dist/md5';
 
 import { AuthenticationService } from '@app/_services';
 
@@ -41,7 +42,11 @@ export class LoginComponent implements OnInit {
         if (this.loginFormGroup.invalid) { return; }
 
         this.loading = true;
-        this.authenticationService.login(this.loginForm.username.value, this.loginForm.password.value)
+        
+        const md5 = new Md5();
+        var password = md5.appendStr(this.loginForm.password.value).end().toString();
+
+        this.authenticationService.login(this.loginForm.username.value, password)
             .pipe(first())
             .subscribe(
                 () => {

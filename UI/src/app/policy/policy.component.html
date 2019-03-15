@@ -1,0 +1,60 @@
+<p>Hola enfermera!</p>
+
+<div class="mat-elevation-z8">
+    <div *ngIf="isLoadingResults">
+        <!-- <mat-spinner *ngIf="isLoadingResults"></mat-spinner> -->
+        <span *ngIf="isLoadingResults">Loading...</span>
+    </div>
+
+    <div class="table-container">
+        <mat-table [dataSource]="policyList" matSort>
+            <ng-container matColumnDef="name">
+                <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+                <mat-cell *matCellDef="let policy"> {{policy.Name}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="description">
+                <mat-header-cell *matHeaderCellDef> Description </mat-header-cell>
+                <mat-cell *matCellDef="let policy"> {{policy.Description}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="coveragePercentaje">
+                <mat-header-cell *matHeaderCellDef> Coverage Percentaje </mat-header-cell>
+                <mat-cell *matCellDef="let policy"> {{policy.CoveragePercentaje}}% </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="coverageTerm">
+                <mat-header-cell *matHeaderCellDef> Coverage Term </mat-header-cell>
+                <mat-cell *matCellDef="let policy"> {{policy.CoverageTerm}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="price">
+                <mat-header-cell *matHeaderCellDef> Price </mat-header-cell>
+                <mat-cell *matCellDef="let policy"> {{policy.Price}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="coverageType">
+                <mat-header-cell *matHeaderCellDef> Coverage Type </mat-header-cell>
+                <mat-cell *matCellDef="let policy"> {{policy.CoverageType}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="riskType">
+                <mat-header-cell *matHeaderCellDef> Risk Type </mat-header-cell>
+                <mat-cell *matCellDef="let policy"> {{policy.RiskType}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="options">
+                <mat-header-cell *matHeaderCellDef> Options </mat-header-cell>
+                <mat-cell *matCellDef="let policy">
+                    <a href=""> Edit </a>
+                    <a href=""> Delete </a>
+                </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+    </div>
+</div>

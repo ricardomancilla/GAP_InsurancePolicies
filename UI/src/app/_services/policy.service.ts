@@ -11,16 +11,10 @@ export class PolicyService {
     constructor(private http: HttpClient) { }
 
     getPolicies(){
-        return this.http.get<any>(`${this.policyApiUrl}/Get`)
-            .pipe(map(policies => {
-                return policies;
-            }));
+        return this.http.get<Policy[]>(`${this.policyApiUrl}/Get`);
     }
 
     getPolicyById(id: number){
-        return this.http.get<any>(`${this.policyApiUrl}/Get/${id}`)
-            .pipe(map(policy => {
-                return policy;
-            }));
+        return this.http.get<Policy>(`${this.policyApiUrl}/Get/${id}`);
     }
 }

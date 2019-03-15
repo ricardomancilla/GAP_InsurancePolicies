@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '@environments/environment';
-import { map } from 'rxjs/operators';
+import { City } from '@app/_models';
 
 @Injectable({ providedIn: 'root' })
 export class CityService {
@@ -9,9 +9,6 @@ export class CityService {
     constructor(private http: HttpClient) { }
 
     getCities(){
-        return this.http.get<any>(`${this.cityApiUrl}/Get`)
-            .pipe(map(cities => {
-                return cities;
-            }));
+        return this.http.get<City[]>(`${this.cityApiUrl}/Get`);
     }
 }

@@ -1,12 +1,10 @@
 ﻿import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 
 import { User } from '@app/_models';
 import { environment } from '@environments/environment'
-
-import { Md5 } from 'ts-md5/dist/md5';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
@@ -24,10 +22,9 @@ export class AuthenticationService {
     }
 
     login(username: string, password: string) {
-        const md5 = new Md5();
-        password = md5.appendStr(password).end().toString();
         return this.http.post<any>(`${this.authApiUrl}/LogIn`, { username, password })
-            .pipe(map(response => {
+            .pipe(
+                map(response => {
                 var user = JSON.parse(response);
                 if (user && user.Token) {
                     localStorage.setItem('currentUser', JSON.stringify(user));
@@ -35,7 +32,8 @@ export class AuthenticationService {
                 }
 
                 return user;
-            }));
+                })
+            );
     }
 
     logout() {
