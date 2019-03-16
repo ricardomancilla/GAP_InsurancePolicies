@@ -8,7 +8,7 @@ import { environment } from '@environments/environment'
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
-    private authApiUrl: string = `${environment.apiUrl}/Auth`;
+    private authApiUrl: string = `${environment.apiUrlF}/Auth`;
     private currentUserSubject: BehaviorSubject<User>;
     public currentUser: Observable<User>;
 

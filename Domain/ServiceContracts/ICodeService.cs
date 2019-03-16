@@ -10,5 +10,7 @@ namespace Domain.ServiceContracts
         ResponseEntityVM GetCoverageTypeCodes();
 
         ResponseEntityVM GetPolicyStatusCodes();
+
+        ResponseEntityVM GetAssignmentStatusCodes();
     }
 }

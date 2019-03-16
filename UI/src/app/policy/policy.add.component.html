@@ -1,0 +1,92 @@
+<div class="content col-12 justify-content-md-center margin-top margin-bottom">
+    <form [formGroup]="addPolicyForm" (ngSubmit)="onSubmit()">
+        <h2>Add new Policy</h2>
+        <div class="form-group">
+            <label for="name">Name *</label>
+            <input formControlName="Name" id="name" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && form.Name.errors }" />
+            <div *ngIf="submitted && form.Name.errors" class="invalid-feedback">
+                <span *ngIf="form.Name.errors.required" class="form-text text-muted">Required.</span>
+                <span *ngIf="form.Name.errors.maxlength" class="form-text text-muted">Should be up to 20
+                    characters.</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="description">Description *</label>
+            <textarea rows="2" cols="50" formControlName="Description" id="description" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && form.Description.errors }"></textarea>
+            <div *ngIf="submitted && form.Description.errors" class="invalid-feedback">
+                <span *ngIf="form.Description.errors.required" class="form-text text-muted">Required.</span>
+                <span *ngIf="form.Description.errors.maxlength" class="form-text text-muted">Should be up
+                    to 300 characters.</span>
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-md-6 col-xs-12">
+                <label for="coverageTypeID">Coverage Type *</label>
+                <select formControlName="CoverageTypeID" id="coverageTypeID" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && form.CoverageTypeID.errors }">
+                    <option *ngFor="let coverage of coverageCodeList" value="{{coverage.CodeID}}">{{ coverage.Code }}</option>
+                </select>
+                <div *ngIf="submitted && form.CoverageTypeID.errors" class="invalid-feedback">
+                    <span *ngIf="form.CoverageTypeID.errors.required" class="form-text text-muted">Required.</span>
+                </div>
+            </div>
+            <div class="col-md-6 col-xs-12">
+                <label for="riskTypeID">Risk Type *</label>
+                <select formControlName="RiskTypeID" id="riskTypeID" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && form.RiskTypeID.errors }">
+                    <option *ngFor="let risk of riskTypeList" value="{{risk.CodeID}}">{{ risk.Code }}</option>
+                </select>
+                <div *ngIf="submitted && form.RiskTypeID.errors" class="invalid-feedback">
+                    <span *ngIf="form.RiskTypeID.errors.required" class="form-text text-muted">Required.</span>
+                </div>
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-md-6 col-xs-12">
+                <label for="CoveragePercentage">Coverage Percentage *</label>
+                <input type="number" step=",01" min="0,01" max="100,00" formControlName="CoveragePercentage"
+                    id="coveragePercentage" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && form.CoveragePercentage.errors }"
+                    pattern="^[0-9]{1,3}(\,[0-9]{0,2})?$" />
+                <div *ngIf="submitted && form.CoveragePercentage.errors" class="invalid-feedback">
+                    <span *ngIf="form.CoveragePercentage.errors.required" class="form-text text-muted">Required.</span>
+                    <span *ngIf="form.CoveragePercentage.errors.pattern" class="form-text text-muted">Should be a number
+                        between 1,00 and 100,00.</span>
+                </div>
+            </div>
+            <div class="col-md-6 col-xs-12">
+                <label for="CoverageTerm">Coverage Term in months *</label>
+                <input type="number" step="1" formControlName="CoverageTerm" id="coverageTerm" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && form.CoverageTerm.errors }" pattern="^\d{1,3}$" />
+                <div *ngIf="submitted && form.CoverageTerm.errors" class="invalid-feedback">
+                    <span *ngIf="form.CoverageTerm.errors.required" class="form-text text-muted">Required.</span>
+                    <span *ngIf="form.CoverageTerm.errors.pattern" class="form-text text-muted">Should be a number
+                        between 1 and 255.</span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-6 col-xs-12 no-padding-left">
+                <label for="price">Price *</label>
+                <input formControlName="Price" id="price" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && form.Price.errors }" pattern="^\d{1,}$" />
+                <div *ngIf="submitted && form.Price.errors" class="invalid-feedback">
+                    <span *ngIf="form.Price.errors.required" class="form-text text-muted">Required.</span>
+                    <span *ngIf="form.Price.errors.min" class="form-text text-muted">Should be greater than 0.</span>
+                    <span *ngIf="form.Price.errors.pattern" class="form-text text-muted">Should be a number.</span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary margin-right" [disabled]="loading">Save</button>
+            <img *ngIf="loading" class="pl-2"
+                src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+            <button class="btn btn-light" [disabled]="loading"
+                (click)="activeModal.close('Cancel click')">Cancel</button>
+            <small class="float-right">* Required fields</small>
+        </div>
+        <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+    </form>
+</div>

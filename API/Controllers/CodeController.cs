@@ -25,6 +25,8 @@ namespace API.Controllers
                     return Result(await Task.FromResult(_service.GetPolicyStatusCodes()));
                 case "RISK":
                     return Result(await Task.FromResult(_service.GetRiskTypeCodes()));
+                case "ASSIGNMENT":
+                    return Result(await Task.FromResult(_service.GetAssignmentStatusCodes()));
                 default:
                     return Result(new Domain.ViewModel.ResponseEntityVM() { StatusCode = System.Net.HttpStatusCode.NotFound });
             }

@@ -10,7 +10,7 @@ import { AuthenticationService } from '@app/_services';
     templateUrl: 'login.component.html'
 })
 export class LoginComponent implements OnInit {
-    loginFormGroup: FormGroup;
+    loginForm: FormGroup;
     loading = false;
     submitted = false;
     returnUrl: string;
@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.loginFormGroup = this.formBuilder.group({
+        this.loginForm = this.formBuilder.group({
             username: ['', Validators.required],
             password: ['', Validators.required]
         });
@@ -34,19 +34,19 @@ export class LoginComponent implements OnInit {
         this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
     }
 
-    get loginForm() { return this.loginFormGroup.controls; }
+    get form() { return this.loginForm.controls; }
 
     onSubmit() {
         this.submitted = true;
 
-        if (this.loginFormGroup.invalid) { return; }
+        if (this.loginForm.invalid) { return; }
 
         this.loading = true;
         
         const md5 = new Md5();
-        var password = md5.appendStr(this.loginForm.password.value).end().toString();
+        var password = md5.appendStr(this.form.password.value).end().toString();
 
-        this.authenticationService.login(this.loginForm.username.value, password)
+        this.authenticationService.login(this.form.username.value, password)
             .pipe(first())
             .subscribe(
                 () => {

@@ -34,11 +34,18 @@ namespace Data.Migrations
                         new CodeModel { Code = "Loss", Description = "Loss as Coverage Type", CreateDate = DateTime.Now }
                     }
                 },
+                new CodeCategoryModel { Code = "ASSIGNMENT_STATUS", Description = "Category for grouping Assignment Status Codes", CreateDate = DateTime.Now,
+                    Codes = new List<CodeModel>()
+                    {
+                        new CodeModel { Code = "Assigned", Description = "Assigned as Assignment Status", CreateDate = DateTime.Now },
+                        new CodeModel { Code = "Cancelled", Description = "Cancelled as Assignment Status", CreateDate = DateTime.Now }
+                    }
+                },
                 new CodeCategoryModel { Code = "POLICY_STATUS", Description = "Category for grouping Policy Status Codes", CreateDate = DateTime.Now,
                     Codes = new List<CodeModel>()
                     {
-                        new CodeModel { Code = "Assigned", Description = "Assigned as Policy Status", CreateDate = DateTime.Now },
-                        new CodeModel { Code = "Cancelled", Description = "Cancelled as Policy Status", CreateDate = DateTime.Now }
+                        new CodeModel { Code = "Active", Description = "Active as Policy Status", CreateDate = DateTime.Now },
+                        new CodeModel { Code = "Deleted", Description = "Deleted as Policy Status", CreateDate = DateTime.Now }
                     }
                 }
             });

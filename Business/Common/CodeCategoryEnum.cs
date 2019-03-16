@@ -4,6 +4,7 @@
     {
         RISK_TYPE,
         COVERAGE_TYPE,
-        POLICY_STATUS
+        POLICY_STATUS,
+        ASSIGNMENT_STATUS
     }
 }

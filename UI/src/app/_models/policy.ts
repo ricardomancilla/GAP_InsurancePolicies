@@ -1,7 +1,8 @@
 export class Policy {
+    PolicyID: number;
     Name: string;
     Description: string;
-    CoveragePercentaje: number;
+    CoveragePercentage: number;
     CoverageTerm: number;
     Price: number;
     CoverageTypeID: number;

@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="Common\AutoMapperProfile.cs" />
     <Compile Include="Common\CodeCategoryEnum.cs" />
+    <Compile Include="Common\AssigmentStatusEnum.cs" />
     <Compile Include="Common\PolicyStatusEnum.cs" />
     <Compile Include="Common\RiskTypeEnum.cs" />
     <Compile Include="Services\AgencyService.cs" />

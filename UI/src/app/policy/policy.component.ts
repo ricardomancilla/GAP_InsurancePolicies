@@ -1,91 +1,81 @@
-import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
-import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
-import { DepartmentService } from '@app/_services/department.service';
-import { CityService, PolicyService } from '@app/_services';
+import { CodeService, PolicyService } from '@app/_services';
+import { Code, Policy } from '@app/_models';
+import { PolicyAddComponent } from './policy.add.component';
 
-import { Department } from '@app/_models/department';
-import { City } from '@app/_models/City';
-import { Policy } from '@app/_models';
-import { merge } from 'rxjs';
-import { startWith, switchMap } from 'rxjs/operators';
-
-@Component({ templateUrl: 'policy.component.html', styleUrls: ['policy.component.scss'] })
+@Component({ templateUrl: 'policy.component.html' })
 export class PolicyComponent implements OnInit, AfterViewInit {
+    private _message = new Subject<string>();
+    private _type: string;
+    message: string;
+    
     policyList: Policy[] = [];
-    departmentList: Department[] = [];
-    cityList: City[] = [];
+    coverageCodeList: Code[] = [];
+    riskTypeList: Code[] = [];
 
     isLoadingResults = true;
 
-    displayedColumns: string[] = ['name', 'description', 'coveragePercentaje', 'coverageTerm', 'price', 'coverageType', 'riskType', 'options'];
-
-    @ViewChild(MatPaginator) paginator: MatPaginator;
-    @ViewChild(MatSort) sort: MatSort;
+    columns: string[] = ['Name', 'Description', 'CoveragePercentage', 'CoverageTerm', 'Price', 'CoverageType', 'RiskType', 'Options'];
 
     constructor(
         private policyService: PolicyService,
-        private departmentService: DepartmentService,
-        private cityService: CityService
-    ) { }
+        private codeService: CodeService,
+        private modalService: NgbModal,
+        modalConfig: NgbModalConfig
+    ) {
+        modalConfig.backdrop = 'static';
+        modalConfig.keyboard = false;
+    }
 
-    // ngOnInit() {
-    //     this.form = this.formBuilder.group({
-    //         name: ['', Validators.required],
-    //         description: ['', Validators.required],
-    //         coveragePercentaje: ['', Validators.required],
-    //         coverageTerm: ['', Validators.required],
-    //         price: ['', Validators.required],
-    //         coverageType: ['', Validators.required],
-    //         riskType: ['', Validators.required]
-    //     });
-    // }
+    ngOnInit() {
+        this._message.subscribe((message) => this.message = message);
+        this._message.pipe(debounceTime(5000)).subscribe(() => this.message = null);
+    }
 
     ngAfterViewInit() {
-        this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
-        //this.paginator.change
-
-        // this.policyService.getPolicies()
-        //     .subscribe(policies => {
-        //         this.policyList = policies,
-        //         this.isLoadingResults = false
-        //     });
-
-        merge(this.sort.sortChange, this.paginator.page)
-            .pipe(
-                startWith({}),
-                switchMap(() => {
-                    this.isLoadingResults = true;
-                    //return this.policyService.getPolicies();
-                    var data: Policy[] = [
-                        { Name: "Policy 1", Description: "Description 1", CoveragePercentaje: 80, CoverageTerm: 12, Price: 1500000, CoverageTypeID: 1, CoverageType: "Loss", RiskTypeID: 1, RiskType: "Low" },
-                        { Name: "Policy 2", Description: "Description 2", CoveragePercentaje: 60, CoverageTerm: 12, Price: 1200000, CoverageTypeID: 1, CoverageType: "Earthquake", RiskTypeID: 1, RiskType: "Medium" },
-                        { Name: "Policy 3", Description: "Description 1", CoveragePercentaje: 80, CoverageTerm: 12, Price: 1500000, CoverageTypeID: 1, CoverageType: "Loss", RiskTypeID: 1, RiskType: "Low" },
-                        { Name: "Policy 4", Description: "Description 2", CoveragePercentaje: 60, CoverageTerm: 12, Price: 1200000, CoverageTypeID: 1, CoverageType: "Earthquake", RiskTypeID: 1, RiskType: "Medium" },
-                        { Name: "Policy 5", Description: "Description 1", CoveragePercentaje: 80, CoverageTerm: 12, Price: 1500000, CoverageTypeID: 1, CoverageType: "Loss", RiskTypeID: 1, RiskType: "Low" },
-                        { Name: "Policy 6", Description: "Description 2", CoveragePercentaje: 60, CoverageTerm: 12, Price: 1200000, CoverageTypeID: 1, CoverageType: "Earthquake", RiskTypeID: 1, RiskType: "Medium" },
-                        { Name: "Policy 7", Description: "Description 1", CoveragePercentaje: 80, CoverageTerm: 12, Price: 1500000, CoverageTypeID: 1, CoverageType: "Loss", RiskTypeID: 1, RiskType: "Low" },
-                        { Name: "Policy 8", Description: "Description 2", CoveragePercentaje: 60, CoverageTerm: 12, Price: 1200000, CoverageTypeID: 1, CoverageType: "Earthquake", RiskTypeID: 1, RiskType: "Medium" },
-                        { Name: "Policy 9", Description: "Description 1", CoveragePercentaje: 80, CoverageTerm: 12, Price: 1500000, CoverageTypeID: 1, CoverageType: "Loss", RiskTypeID: 1, RiskType: "Low" },
-                        { Name: "Policy 10", Description: "Description 2", CoveragePercentaje: 60, CoverageTerm: 12, Price: 1200000, CoverageTypeID: 1, CoverageType: "Earthquake", RiskTypeID: 1, RiskType: "Medium" },
-                        { Name: "Policy 11", Description: "Description 1", CoveragePercentaje: 80, CoverageTerm: 12, Price: 1500000, CoverageTypeID: 1, CoverageType: "Loss", RiskTypeID: 1, RiskType: "Low" },
-                        { Name: "Policy 12", Description: "Description 2", CoveragePercentaje: 60, CoverageTerm: 12, Price: 1200000, CoverageTypeID: 1, CoverageType: "Earthquake", RiskTypeID: 1, RiskType: "Medium" },
-                        { Name: "Policy 13", Description: "Description 1", CoveragePercentaje: 80, CoverageTerm: 12, Price: 1500000, CoverageTypeID: 1, CoverageType: "Loss", RiskTypeID: 1, RiskType: "Low" },
-                        { Name: "Policy 14", Description: "Description 2", CoveragePercentaje: 60, CoverageTerm: 12, Price: 1200000, CoverageTypeID: 1, CoverageType: "Earthquake", RiskTypeID: 1, RiskType: "Medium" },
-                        { Name: "Policy 15", Description: "Description 1", CoveragePercentaje: 80, CoverageTerm: 12, Price: 1500000, CoverageTypeID: 1, CoverageType: "Loss", RiskTypeID: 1, RiskType: "Low" }
-                    ];
-                    return data;
-                })
-            ).subscribe(data => this.policyList = data);
-
-        this.departmentService.getDepartments()
-            .subscribe(departments => {
-                this.departmentList = departments
+        this.policyService.getPolicies()
+            .subscribe(policies => {
+                this.policyList = policies;
+                this.isLoadingResults = false;
             });
 
-        this.cityService.getCities()
-            .subscribe(cities => {
-                this.cityList = cities
+        this.codeService.getCodes("COVERAGE")
+            .subscribe(coverages => {
+                this.coverageCodeList = coverages
             });
+
+        this.codeService.getCodes("RISK")
+            .subscribe(risks => {
+                this.riskTypeList = risks
+            });
+    }
+
+    add() {
+        this.openModal(null);
+    }
+
+    edit(policy: Policy) {
+        this.openModal(policy);
+    }
+
+    delete(policy: Policy) {
+        //Pedir confirmacion
+        this.policyService.deletePolicy(policy.PolicyID)
+            .subscribe();
+    }
+
+    private openModal(data: any){
+        const modalRef = this.modalService.open(PolicyAddComponent);
+        modalRef.componentInstance.coverageCodeList = this.coverageCodeList;
+        modalRef.componentInstance.riskTypeList = this.riskTypeList;
+        modalRef.componentInstance.data = data;
+        modalRef.componentInstance.onAdd.subscribe((type: any, message: any) => {
+            this._type = type;
+            this._message.next(message);
+        });
     }
 }

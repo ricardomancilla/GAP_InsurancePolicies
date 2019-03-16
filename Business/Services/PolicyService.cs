@@ -30,12 +30,13 @@ namespace Business.Services
         {
             try
             {
-                var policy = ((List<PolicyVM>)FindBy(x => x.PolicyID.Equals(id)).Result).FirstOrDefault();
+                //var policy = ((List<PolicyVM>)FindBy(x => x.PolicyID.Equals(id)).Result).FirstOrDefault();
+                var policy = _repository.Find(id);
 
                 if (policy == null)
                     return new ResponseEntityVM() { StatusCode = System.Net.HttpStatusCode.NotFound };
 
-                return new ResponseEntityVM() { StatusCode = System.Net.HttpStatusCode.OK, Result = policy };
+                return new ResponseEntityVM() { StatusCode = System.Net.HttpStatusCode.OK, Result = _mapper.Map<PolicyVM>(policy) };
             }
             catch (Exception ex)
             {
@@ -50,19 +51,21 @@ namespace Business.Services
                 var coverateTypeCodes = ((List<CodeVM>)_codeService.GetCoverageTypeCodes().Result).ToList();
                 var riskTypeCodes = ((List<CodeVM>)_codeService.GetRiskTypeCodes().Result).ToList();
 
-                var policyList = _repository.FindBy(predicate).Where(x => x.DeleteDate.Equals(null)).Select(x =>
+                var policyList = _repository.FindBy(predicate).Where(x => x.DeleteDate.Equals(null)).ToList().Select(x =>
                     new PolicyVM()
                     {
                         PolicyID = x.PolicyID,
-                        CoveragePercentaje = x.CoveragePercentage,
+                        CoveragePercentage = x.CoveragePercentage,
+                        CoverageTypeID = x.CoverageTypeID,
                         CoverageType = coverateTypeCodes.Where(y => y.CodeID.Equals(x.CoverageTypeID)).FirstOrDefault().Code,
                         Description = x.Description,
                         Name = x.Name,
                         Price = x.Price,
+                        RiskTypeID = x.RiskTypeID,
                         RiskType = riskTypeCodes.Where(y => y.CodeID.Equals(x.RiskTypeID)).FirstOrDefault().Code,
                         CoverageTerm = x.CoverageTerm
                     }
-                );
+                ).ToList();
 
                 return new ResponseEntityVM() { StatusCode = System.Net.HttpStatusCode.OK, Result = policyList };
             }
@@ -84,7 +87,7 @@ namespace Business.Services
                     PolicyID = x.PolicyID,
                     Name = x.Name,
                     Description = x.Description,
-                    CoveragePercentaje = x.CoveragePercentage,
+                    CoveragePercentage = x.CoveragePercentage,
                     CoverageType = coverateTypeCodes.Where(y => y.CodeID.Equals(x.CoverageTypeID)).FirstOrDefault().Code,
                     RiskType = riskTypeCodes.Where(y => y.CodeID.Equals(x.RiskTypeID)).FirstOrDefault().Code,
                     Price = x.Price,
@@ -109,6 +112,10 @@ namespace Business.Services
 
                 if (validateBusinessRuleResult.StatusCode == System.Net.HttpStatusCode.OK)
                 {
+                    var activeAssignmentStatus = AssigmentStatusEnum.Assigned.ToString("G");
+                    var activeAssignmentStatusCode = ((List<CodeVM>)_codeService.GetAssignmentStatusCodes().Result).Where(x => x.Code.Equals(activeAssignmentStatus)).FirstOrDefault();
+
+                    entity.PolicyStatusID = activeAssignmentStatusCode.CodeID;
                     var entityResult = _repository.Insert(entity);
                     _repository.SaveChanges();
                     return new ResponseEntityVM() { StatusCode = System.Net.HttpStatusCode.Created, Result = entityResult };
@@ -131,7 +138,16 @@ namespace Business.Services
 
                 if (validateBusinessRuleResult.StatusCode == System.Net.HttpStatusCode.OK)
                 {
-                    _repository.Update(entity);
+                    var currentPolicy = _repository.Find(entity.PolicyID);
+                    currentPolicy.Name = entity.Name;
+                    currentPolicy.Description = entity.Description;
+                    currentPolicy.CoveragePercentage = entity.CoveragePercentage;
+                    currentPolicy.CoverageTerm = entity.CoverageTerm;
+                    currentPolicy.Price = entity.Price;
+                    currentPolicy.RiskTypeID = entity.RiskTypeID;
+                    currentPolicy.CoverageTypeID = entity.CoverageTypeID;
+
+                    _repository.Update(currentPolicy);
                     _repository.SaveChanges();
                     return new ResponseEntityVM() { StatusCode = System.Net.HttpStatusCode.NoContent };
                 }
@@ -183,7 +199,7 @@ namespace Business.Services
 
         private ResponseEntityVM ValidatePolicyNotInUse(PolicyModel entity)
         {
-            var assignedPolicyStatus = PolicyStatusEnum.Assigned.ToString("G");
+            var assignedPolicyStatus = AssigmentStatusEnum.Assigned.ToString("G");
 
             var customerPolicyList = _customerPolicyRepository.FindBy(x =>
                 x.PolicyID.Equals(entity.PolicyID) &&

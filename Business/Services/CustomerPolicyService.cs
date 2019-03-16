@@ -28,7 +28,7 @@ namespace Business.Services
         {
             try
             {
-                var policyAssignedStatus = PolicyStatusEnum.Assigned.ToString("G");
+                var policyAssignedStatus = AssigmentStatusEnum.Assigned.ToString("G");
                 var customerPolicyList = _repository.FindBy(x => x.Status.Code.Equals(policyAssignedStatus));
 
                 return new ResponseEntityVM() { StatusCode = System.Net.HttpStatusCode.OK, Result = _mapper.Map<IList<CustomerPolicyVM>>(customerPolicyList) };
@@ -43,7 +43,7 @@ namespace Business.Services
         {
             try
             {
-                var assignedPolicyStatus = PolicyStatusEnum.Assigned.ToString("G");
+                var assignedPolicyStatus = AssigmentStatusEnum.Assigned.ToString("G");
                 var assignedPolicyStatusType = ((List<CodeVM>)_codeService.GetPolicyStatusCodes().Result).FirstOrDefault(x => x.Code.Equals(assignedPolicyStatus));
 
                 var customerPolicyList = _repository.FindBy(predicate).Where(x => x.StatusID.Equals(assignedPolicyStatusType.CodeID)).ToList();
@@ -60,7 +60,7 @@ namespace Business.Services
         {
             try
             {
-                var policyAssignedStatus = PolicyStatusEnum.Assigned.ToString("G");
+                var policyAssignedStatus = AssigmentStatusEnum.Assigned.ToString("G");
                 var codeList = ((List<CodeVM>)_codeService.GetPolicyStatusCodes().Result).FirstOrDefault(x => x.Code.Equals(policyAssignedStatus));
 
                 var associationAlreadyExists = _repository.FindBy(x => x.CustomerID.Equals(entity.CustomerID)
@@ -84,7 +84,7 @@ namespace Business.Services
         {
             try
             {
-                var cancelledPolicyStatus = PolicyStatusEnum.Cancelled.ToString("G");
+                var cancelledPolicyStatus = AssigmentStatusEnum.Cancelled.ToString("G");
                 var cancelledPolicyStatusType = ((List<CodeVM>)_codeService.GetPolicyStatusCodes().Result).FirstOrDefault(x => x.Code.Equals(cancelledPolicyStatus));
 
                 var customerPolicy = _repository.Find(id);

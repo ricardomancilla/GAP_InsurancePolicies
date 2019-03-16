@@ -1,4 +1,5 @@
 ﻿export * from './city';
+export * from './code';
 export * from './customer';
 export * from './department';
 export * from './policy';

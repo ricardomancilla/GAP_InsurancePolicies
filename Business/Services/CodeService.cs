@@ -38,6 +38,12 @@ namespace Business.Services
             return GetCodeListMapped(riskTypeCode);
         }
 
+        public ResponseEntityVM GetAssignmentStatusCodes()
+        {
+            var assignmentStatusCode = CodeCategoryEnum.ASSIGNMENT_STATUS.ToString("G");
+            return GetCodeListMapped(assignmentStatusCode);
+        }
+
         private ResponseEntityVM GetCodeListMapped(string code)
         {
             try

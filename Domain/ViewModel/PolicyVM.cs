@@ -10,13 +10,17 @@ namespace Domain.ViewModel
 
         public string Description { get; set; }
 
-        public decimal CoveragePercentaje { get; set; }
+        public decimal CoveragePercentage { get; set; }
 
         public byte CoverageTerm { get; set; }
 
         public decimal Price { get; set; }
 
+        public short CoverageTypeID { get; set; }
+
         public string CoverageType { get; set; }
+
+        public short RiskTypeID { get; set; }
 
         public string RiskType { get; set; }
     }

@@ -2,7 +2,7 @@
 {
     public enum PolicyStatusEnum
     {
-        Assigned,
-        Cancelled
+        Active,
+        Deleted
     }
 }

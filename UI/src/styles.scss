@@ -1,3 +1,46 @@
 /* You can add global styles to this file, and also import other style files */
-@import "~@angular/material/prebuilt-themes/indigo-pink.css";
-@import url('//fonts.googleapis.com/icon?family=Material+Icons');
+
+.btn-add{
+    margin-bottom: 15px;
+}
+
+.btn-option{
+    padding: 0px 5px !important;
+}
+
+.float-left{
+    float: left;
+}
+
+.float-right{
+    float: right;
+}
+
+.margin-bottom{
+    margin-bottom: 15px;
+}
+
+.margin-left{
+    margin-left: 15px;
+}
+
+.margin-right{
+    margin-right: 15px;
+}
+
+.margin-top{
+    margin-top: 15px;
+}
+
+.no-padding-left, .no-padding{
+    padding-left: 0px;
+}
+
+.no-padding-right, .no-padding{
+    padding-right: 0px;
+}
+
+.spinner-lg {
+    width: 5rem;
+    height: 5rem;
+}
