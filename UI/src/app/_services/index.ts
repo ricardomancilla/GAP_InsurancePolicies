@@ -1,4 +1,5 @@
 ﻿export * from './authentication.service';
+export * from './assign-policy.service';
 export * from './city.service';
 export * from './code.service';
 export * from './customer.service';

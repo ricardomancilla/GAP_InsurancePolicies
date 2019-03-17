@@ -1,11 +1,21 @@
 /* You can add global styles to this file, and also import other style files */
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+@import '~ngx-toastr/toastr-bs4-alert';
+@import "~ng-pick-datetime/assets/style/picker.min.css";
 
 .btn-add{
     margin-bottom: 15px;
+    margin-right: 15px;
 }
 
 .btn-option{
     padding: 0px 5px !important;
+}
+
+.cdk-overlay-container{
+    z-index: 1100;
 }
 
 .float-left{
@@ -14,6 +24,10 @@
 
 .float-right{
     float: right;
+}
+
+.form-control[readonly]{
+    background-color: white;
 }
 
 .margin-bottom{

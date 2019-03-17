@@ -12,7 +12,11 @@ namespace Domain.ViewModel
 
         public int? CustomerID { get; set; }
 
+        public string Customer { get; set; }
+
         public int? PolicyID { get; set; }
+
+        public string Policy { get; set; }
 
         public DateTime? EffectiveStartDate { get; set; }
 

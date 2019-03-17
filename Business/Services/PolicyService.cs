@@ -30,7 +30,6 @@ namespace Business.Services
         {
             try
             {
-                //var policy = ((List<PolicyVM>)FindBy(x => x.PolicyID.Equals(id)).Result).FirstOrDefault();
                 var policy = _repository.Find(id);
 
                 if (policy == null)
@@ -94,7 +93,7 @@ namespace Business.Services
                     CoverageTerm = x.CoverageTerm
                 });
 
-                return new ResponseEntityVM() { StatusCode = System.Net.HttpStatusCode.OK, Result = policyList };
+                return new ResponseEntityVM() { StatusCode = System.Net.HttpStatusCode.OK, Result = policyList.ToList() };
             }
             catch (Exception ex)
             {
@@ -191,7 +190,7 @@ namespace Business.Services
             if (entity.RiskTypeID == highRiskTypeCode.CodeID && entity.CoveragePercentage > RiskTypeEnum.High.GetHashCode())
             {
                 result.StatusCode = System.Net.HttpStatusCode.Forbidden;
-                result.Message = $"The coverage percentage cannot be over {RiskTypeEnum.High.GetHashCode()}% for High Risk coverage type.";
+                result.Message = $"The coverage percentage cannot be over {RiskTypeEnum.High.GetHashCode()}% for High risk type.";
             }
 
             return result;

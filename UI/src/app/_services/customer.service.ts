@@ -6,10 +6,17 @@ import { map } from 'rxjs/operators';
 @Injectable({ providedIn: 'root' })
 export class CustomerService {
     private customerApiUrl: string = `${environment.apiUrl}/Customer`;
-    
+
     constructor(private http: HttpClient) { }
 
-    getCustomersByFilter(filter: string){
+    getCustomers() {
+        return this.http.get<any>(`${this.customerApiUrl}/Get`)
+            .pipe(
+                map(result => { return JSON.parse(result); })
+            );
+    }
+
+    getCustomersByFilter(filter: string) {
         return this.http.get<any>(`${this.customerApiUrl}/GetBy/${filter}`)
             .pipe(
                 map(result => { return JSON.parse(result); })

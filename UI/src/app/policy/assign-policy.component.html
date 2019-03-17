@@ -1,0 +1,79 @@
+<div class="content col-12 justify-content-md-center margin-top margin-bottom">
+    <form [formGroup]="assignPolicyForm" (ngSubmit)="onSubmit()">
+        <h3>Assign Policy to Customer</h3>
+        <div class="row form-group">
+            <div class="col-md-6 col-xs-12">
+                <label for="policyID">Policy *</label>
+                <select formControlName="PolicyID" id="colicyID" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && form.PolicyID.errors }" (change)="setDueDate()">
+                    <option *ngFor="let policy of policyList" value="{{policy.PolicyID}}">
+                        {{ policy.Name }} ({{ policy.Description }})
+                    </option>
+                </select>
+                <div *ngIf="submitted && form.PolicyID.errors" class="invalid-feedback">
+                    <span *ngIf="form.PolicyID.errors.required" class="form-text text-muted">Required.</span>
+                </div>
+            </div>
+            <div class="col-md-6 col-xs-12">
+                <label for="customerID">Customer *</label>
+                <select formControlName="CustomerID" id="customerID" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && form.CustomerID.errors }">
+                    <option *ngFor="let customer of customerList" value="{{customer.CustomerID}}">{{ customer.Name }}
+                    </option>
+                </select>
+                <div *ngIf="submitted && form.CustomerID.errors" class="invalid-feedback">
+                    <span *ngIf="form.CustomerID.errors.required" class="form-text text-muted">Required.</span>
+                </div>
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-md-6 col-xs-12">
+                <label for="effectiveStartDate">Effective Start Date *</label>
+                <input formControlName="EffectiveStartDate" id="effectiveStartDate" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && form.EffectiveStartDate.errors }"
+                    [owlDateTimeTrigger]="dtPicker1" [owlDateTime]="dtPicker1" [min]="today" (ngModelChange)="setDueDate()" readonly />
+                <owl-date-time [pickerType]="'calendar'" #dtPicker1></owl-date-time>
+                <div *ngIf="submitted && form.EffectiveStartDate.errors" class="invalid-feedback">
+                    <span *ngIf="form.EffectiveStartDate.errors.required" class="form-text text-muted">Required.</span>
+                </div>
+            </div>
+            <div class="col-md-6 col-xs-12">
+                <label for="dueDate">Due Date</label>
+                <input [value]="dueDate" id="dueDate" class="form-control" disabled />
+            </div>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary margin-right" [disabled]="loading">Save</button>
+            <img *ngIf="loading" class="pl-2"
+                src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+            <button class="btn btn-light" [disabled]="loading" (click)="activeModal.close('Cancel')">Cancel</button>
+            <small class="float-right">* Required fields</small>
+        </div>
+    </form>
+
+    <div class="table-responsive">
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col" *ngFor="let colum of columns">{{colum}}</th>
+                </tr>
+            </thead>
+            <tbody *ngIf="!assignmentPolicyList || assignmentPolicyList.length == 0">
+                There is no data to display.
+            </tbody>
+            <tbody *ngIf="assignmentPolicyList && assignmentPolicyList.length > 0">
+                <tr *ngFor="let assignment of assignmentPolicyList">
+                    <td>{{assignment.Policy}}</td>
+                    <td>{{assignment.Customer}}</td>
+                    <td>{{assignment.EffectiveStartDate | date}} </td>
+                    <td>{{assignment.DueDate | date}}</td>
+                    <td>
+                        <button class="btn btn-link btn-option" (click)="delete(assignment)" placement="top"
+                            ngbTooltip="Remove"><i class="fas fa-trash-alt"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

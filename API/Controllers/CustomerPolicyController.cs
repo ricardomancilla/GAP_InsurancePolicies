@@ -24,13 +24,6 @@ namespace API.Controllers
             return Result(await Task.FromResult(_service.GetAll()));
         }
 
-        [ActionName("Get")]
-        public async Task<IHttpActionResult> GetBy(CustomerPolicyVM filter)
-        {
-            var predicate = getPredicate(filter);
-            return Result(await Task.FromResult(_service.FindBy(predicate)));
-        }
-
         [HttpPost]
         public async Task<IHttpActionResult> Create(CustomerPolicyModel entity)
         {
@@ -49,7 +42,6 @@ namespace API.Controllers
         public async Task<IHttpActionResult> Delete(int id)
         {
             return Result(await Task.FromResult(_service.CancelPolicy(id)));
-
         }
 
         private Expression<Func<CustomerPolicyModel, bool>> getPredicate(CustomerPolicyVM filter)

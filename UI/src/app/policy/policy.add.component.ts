@@ -1,17 +1,17 @@
-import { Component, Input, OnInit, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, EventEmitter, Output } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { Code, Policy } from '@app/_models';
 import { PolicyService } from '@app/_services/policy.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({ templateUrl: 'policy.add.component.html' })
 export class PolicyAddComponent implements OnInit {
     @Input() coverageCodeList: Code[];
     @Input() riskTypeList: Code[];
     @Input() data: Policy;
-    onAdd = new EventEmitter();
-
+    
     addPolicyForm: FormGroup;
     submitted = false;
     loading = false;
@@ -19,9 +19,9 @@ export class PolicyAddComponent implements OnInit {
     constructor(
         private policyService: PolicyService,
         private formBuilder: FormBuilder,
-        public activeModal: NgbActiveModal
-    ) {
-    }
+        public activeModal: NgbActiveModal,
+        private toastr: ToastrService
+    ) { }
 
     ngOnInit() {
         this.addPolicyForm = this.formBuilder.group({
@@ -43,9 +43,7 @@ export class PolicyAddComponent implements OnInit {
     onSubmit() {
         this.submitted = true;
 
-        if (this.addPolicyForm.invalid) {
-            return;
-        }
+        if (this.addPolicyForm.invalid) { return; }
 
         this.loading = true;
 
@@ -64,24 +62,26 @@ export class PolicyAddComponent implements OnInit {
             this.policyService.editPolicy(dataPolicy)
                 .subscribe(
                     () => {
-                        this.onAdd.emit({ type: "success", message: "The Policy was updated successfully." })
-                        this.activeModal.close('Ok click');
+                        this.toastr.success("The Policy was successfully updated.");
+                        this.activeModal.close('Ok');
                     },
                     error => {
-                        this.onAdd.emit({ type: "danger", message: `Error updating the Policy: ${error}` })
+                        this.toastr.error(error);
                         this.loading = false;
-                    });
+                    }
+                );
         } else {
             this.policyService.addPolicy(dataPolicy)
                 .subscribe(
                     () => {
-                        this.onAdd.emit({ type: "success", message: "The Policy was added successfully." })
-                        this.activeModal.close('Ok click');
+                        this.toastr.success("The Policy was successfully added.");
+                        this.activeModal.close('Ok');
                     },
                     error => {
-                        this.onAdd.emit({ type: "danger", message: `Error adding the Policy: ${error}` })
+                        this.toastr.error(error);
                         this.loading = false;
-                    });
+                    }
+                );
         }
     }
 }

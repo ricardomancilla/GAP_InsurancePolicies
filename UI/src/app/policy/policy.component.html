@@ -9,12 +9,10 @@
     </div>
 
     <div *ngIf="!isLoadingResults" class="col-12">
-
-        <ngb-alert *ngIf="message" [type]="_type" (close)="message = null">{{ message }}</ngb-alert>
-
         <h2>Policies</h2>
         <br />
-        <button class="btn btn-primary btn-add" (click)="add(null)">Add new Policy</button>
+        <button class="btn btn-primary btn-add" (click)="add()">Add new Policy</button>
+        <button class="btn btn-info btn-add" (click)="assignPolicy()">Assign Policy</button>
         <div class="table-responsive">
             <table class="table">
                 <thead class="thead-dark">
@@ -30,7 +28,7 @@
                         <td>{{policy.Name}}</td>
                         <td>{{policy.Description}}</td>
                         <td>{{policy.CoveragePercentage}}%</td>
-                        <td>{{policy.CoverageTerm}}</td>
+                        <td>{{policy.CoverageTerm}} months</td>
                         <td>{{policy.Price | currency}}</td>
                         <td>{{policy.CoverageType}}</td>
                         <td>{{policy.RiskType}}</td>
